@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "553694238591",
+    "firebase_url": "https://broadcastv-93853.firebaseio.com",
+    "project_id": "broadcastv-93853",
+    "storage_bucket": "broadcastv-93853.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553694238591:android:0467cca44a3f3eaa",
+        "android_client_info": {
+          "package_name": "mx.com.broadcastv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "553694238591-qcjftiab3lihilm058t2h0k0bihmflf0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mx.com.broadcastv",
+            "certificate_hash": "AD6EFD0A99F4F0E64D6DA8BE5DCCB90455D28C4A"
+          }
+        },
+        {
+          "client_id": "553694238591-d0lq8r33kbqoqa119mhdhcufcq3hcgnb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3hdLf61U6CokehGzBF-ETyrWBEYTqFAQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "553694238591-d0lq8r33kbqoqa119mhdhcufcq3hcgnb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

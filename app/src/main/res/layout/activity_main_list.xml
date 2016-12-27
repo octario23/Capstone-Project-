@@ -1,0 +1,62 @@
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/rootLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#EBEBEB"
+            android:paddingTop="?attr/actionBarSize">
+
+        </FrameLayout>
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:src="@mipmap/ic_action_navigation_refresh"
+            app:layout_anchor="@id/rootLayout"
+            android:id="@+id/mFab"
+            app:layout_anchorGravity="bottom|right|end" />
+
+        <mx.com.broadcastv.ui.views.RevealLayout
+            android:id="@+id/reveal_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="?attr/actionBarSize"
+            android:background="@color/md_blue_800"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/reveal_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="test"
+                android:visibility="invisible"/>
+
+        </mx.com.broadcastv.ui.views.RevealLayout>
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</android.support.v4.widget.DrawerLayout>
