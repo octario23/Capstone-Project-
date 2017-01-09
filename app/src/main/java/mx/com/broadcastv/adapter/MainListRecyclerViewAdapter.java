@@ -36,8 +36,6 @@ public class MainListRecyclerViewAdapter  extends
     private MainListFragment mainListFragment;
     private Context context;
     private Cursor mCursor;
-    private static final String IS_FAVORITE = "is_favorite";
-    private static final String CHANNEL_ID = "channel_id";
     private DetailChannelFragment detailChannelFragment;
 
 
@@ -70,18 +68,6 @@ public class MainListRecyclerViewAdapter  extends
         holder.cardView.setOnClickListener(this);
         holder.playButton.setTag(mCursor.getString(MainListFragment.COL_URL));
         holder.playButton.setOnClickListener(this);
-//        if (mCursor.getInt(MainListFragment.COL_IS_FAVORITE) == 1) {
-//            holder.starImageView.setImageResource(R.mipmap.star_icon_selected);
-//        } else {
-//            holder.starImageView.setImageResource(R.mipmap.start_icon);
-//        }
-//        Bundle args = new Bundle();
-//        args.putInt(IS_FAVORITE,mCursor.getInt(MainListFragment.COL_IS_FAVORITE));
-//        args.putString(CHANNEL_ID,mCursor.getString(MainListFragment.COL_CHANNEL_ID));
-//        args.putInt(ITEM_POS,position);
-////        holder.starImageView.setTag(R.string.data,args);
-//        holder.starImageView.setTag(args);
-//        holder.starImageView.setOnClickListener(this);
     }
 
 
@@ -105,7 +91,6 @@ public class MainListRecyclerViewAdapter  extends
 
     public static class ItemHolder extends RecyclerView.ViewHolder{
 
-//        ImageView starImageView;
         CardView cardView;
         TextView textItemName;
         TextView textItemGroup;
@@ -117,7 +102,6 @@ public class MainListRecyclerViewAdapter  extends
             cardView = cView;
             textItemName = (TextView) cardView.findViewById(R.id.item_name);
             textItemGroup = (TextView) cardView.findViewById(R.id.item_group);
-//            starImageView = (ImageView) cardView.findViewById(R.id.star_icon);
             playButton    = (ImageView) cardView.findViewById(R.id.playButton);
         }
     }
@@ -129,24 +113,9 @@ public class MainListRecyclerViewAdapter  extends
             ((OnClickCallback) context).onItemSelected(
                     ServicesContract.ChannelEntry.buildChannelIdUriQuery(channel_id)
             );
-        }else if(v instanceof ImageButton){
+        }else if(v instanceof ImageView){
             String url = (String) v.getTag();
             ((OnClickCallback) context).onPlayButtonClicked(url);
-        }
-        else if (v instanceof ImageView){
-            Bundle data = (Bundle) v.getTag(R.string.data);
-//            ItemHolder holder = (ItemHolder) v.getTag();
-            int isFavorite = 0;
-            if(data.getInt(IS_FAVORITE) == 1){
-                ((ImageView)v).setImageResource(R.mipmap.star_icon_selected);
-            } else {
-                ((ImageView)v).setImageResource(R.mipmap.start_icon);
-                isFavorite = 1;
-            }
-            notifyDataSetChanged();
-            notifyItemChanged(data.getInt(ITEM_POS));
-            BroadcastvSQLUtil.updateIsFavoriteChannel(context, MainListActivity.usr.getUserId(),isFavorite,data.getString(CHANNEL_ID));
-//            restartChannels();
         }
     }
 

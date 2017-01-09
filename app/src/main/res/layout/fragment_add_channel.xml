@@ -1,0 +1,48 @@
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contentAdd"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?actionBarSize"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:gravity="center_vertical"
+                  android:layout_gravity="center_vertical"
+                  android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/channelName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/channelName"
+            android:inputType="text"
+            android:textColor="@color/material_drawer_selected"
+            android:textColorHint="@color/material_drawer_selected"
+            android:gravity="center"
+            android:imeOptions="actionNext" />
+
+        <EditText
+            android:id="@+id/channelUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/channelUrl"
+            android:textColor="@color/material_drawer_selected"
+            android:textColorHint="@color/material_drawer_selected"
+            android:gravity="center"
+            android:inputType="text"
+            android:imeOptions="actionDone" />
+
+        <Button android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/addChannelBtn"
+                android:textColor="@color/material_drawer_selected"
+                android:background="@drawable/button_red"
+                android:text="@string/send"/>
+    </LinearLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

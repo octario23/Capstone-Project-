@@ -25,6 +25,7 @@ import android.widget.ListView;
 import mx.com.broadcastv.R;
 import mx.com.broadcastv.adapter.MainListRecyclerViewAdapter;
 import mx.com.broadcastv.data.ServicesContract;
+import mx.com.broadcastv.ui.views.AdjustableRecyclerView;
 import mx.com.broadcastv.util.BroadcastvSQLUtil;
 
 /**
@@ -51,7 +52,7 @@ public class MainListFragment extends Fragment  implements LoaderManager.LoaderC
     public static final String CHANNELS_TO_SHOW = "channels_to_show";
 
 
-    private RecyclerView myRecyclerView;
+    private AdjustableRecyclerView myRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private MainListRecyclerViewAdapter myRecyclerViewAdapter;
     private int mPosition = 0;
@@ -81,14 +82,15 @@ public class MainListFragment extends Fragment  implements LoaderManager.LoaderC
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_main_list, container, false);
-        myRecyclerView          = (RecyclerView)view.findViewById(R.id.myrecyclerview);
-        linearLayoutManager     = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        myRecyclerView          = (AdjustableRecyclerView) view.findViewById(R.id.myrecyclerview);
+//        linearLayoutManager     = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         myRecyclerViewAdapter   = new MainListRecyclerViewAdapter(getContext(),fm);
-        toolbar             = (Toolbar)         getActivity().findViewById(R.id.toolbar);
-        rootLayout          = (FrameLayout)     getActivity().findViewById(R.id.rootLayout);
+        toolbar                 = (Toolbar)         getActivity().findViewById(R.id.toolbar);
+        rootLayout              = (FrameLayout)     getActivity().findViewById(R.id.rootLayout);
 
         myRecyclerView.setAdapter(myRecyclerViewAdapter);
-        myRecyclerView.setLayoutManager(linearLayoutManager);
+//        myRecyclerView.setLayoutManager(linearLayoutManager);
+        myRecyclerView.setHasFixedSize(true);
 
         // Inflate the layout for this fragment
         return view;

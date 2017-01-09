@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:padding="1dp">
 
-    <android.support.v7.widget.RecyclerView
+    <mx.com.broadcastv.ui.views.AdjustableRecyclerView
         android:id="@+id/myrecyclerview"
         android:layout_width="match_parent"
         android:padding="4dp"

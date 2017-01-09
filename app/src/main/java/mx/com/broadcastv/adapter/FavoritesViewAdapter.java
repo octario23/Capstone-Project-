@@ -123,7 +123,7 @@ public class FavoritesViewAdapter extends RecyclerView.Adapter<FavoritesViewAdap
             restartFavorites(data.getString(USERID));
             notifyItemRemoved(data.getInt(ITEM_POS));
             notifyDataSetChanged();
-            ((OnClickCallback)context).showInteractiveMsg("Test from Adapter");
+            ((OnClickCallback)context).showInteractiveMsg(context.getResources().getString(R.string.delete_favorite));
         } else if(v instanceof ImageView) {
             String url = (String) v.getTag();
             ((OnClickCallback) context).onPlayButtonClicked(url);

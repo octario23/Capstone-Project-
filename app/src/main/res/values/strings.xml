@@ -42,4 +42,15 @@
     <string name="search_no_result_found">No se encontraron resultados.</string>
     <string name="search_encouragement">Busca por nombre de canal o película.</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="channelName">Nombre del Canal</string>
+    <string name="channelUrl">URL del Canal</string>
+    <string name="send">Enviar</string>
+    <string name="addChannel">Registro de Canal</string>
+    <string name="channel_added">Canal Agregado exitosamente.</string>
+    <string name="watch_now">Reproducir</string>
+    <string name="delete_favorite">Canal borrado de tus favoritos.</string>
+    <string name="added_favorite">Canal agregado a tus favoritos</string>
+
 </resources>

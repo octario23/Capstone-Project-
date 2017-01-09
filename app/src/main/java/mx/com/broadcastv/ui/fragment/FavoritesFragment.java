@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -75,6 +76,7 @@ public class FavoritesFragment extends Fragment
     private FragmentManager fm;
     private TextView noItemsText;
     private FrameLayout noRecordsLayout;
+    private FloatingActionButton mFab;
 
 
     public static FavoritesFragment newInstance(Bundle args) {
@@ -101,10 +103,10 @@ public class FavoritesFragment extends Fragment
 
         View view = inflater.inflate(R.layout.fragment_favorites, container, false);
         myRecyclerView          = (AdjustableRecyclerView) view.findViewById(R.id.myrecyclerview);
-        linearLayoutManager     = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         myRecyclerViewAdapter   = new FavoritesViewAdapter(getContext(), fm);
         toolbar                 = (Toolbar)         getActivity().findViewById(R.id.toolbar);
         rootLayout              = (FrameLayout)     getActivity().findViewById(R.id.rootLayout);
+        mFab                    = (FloatingActionButton)     getActivity().findViewById(R.id.mFab);
         noItemsText             = (TextView)        view.findViewById(R.id.noItemsSectionText);
         noRecordsLayout         = (FrameLayout)     view.findViewById(R.id.noRecordLayout);
 
@@ -115,7 +117,7 @@ public class FavoritesFragment extends Fragment
         mAdView.loadAd(adRequest);
 
         myRecyclerView.setAdapter(myRecyclerViewAdapter);
-        myRecyclerView.setLayoutManager(linearLayoutManager);
+        myRecyclerView.setHasFixedSize(true);
 
 
         // Inflate the layout for this fragment
@@ -203,6 +205,7 @@ public class FavoritesFragment extends Fragment
             mAdView.destroy();
         }
         super.onDestroy();
+        mFab.setVisibility(View.VISIBLE);
     }
 
     @Override

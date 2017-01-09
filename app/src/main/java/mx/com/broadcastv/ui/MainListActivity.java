@@ -1,6 +1,9 @@
 package mx.com.broadcastv.ui;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +28,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -67,11 +73,11 @@ import mx.com.broadcastv.model.Request;
 import mx.com.broadcastv.model.Token;
 import mx.com.broadcastv.model.TokenResponse;
 import mx.com.broadcastv.model.User;
+import mx.com.broadcastv.ui.fragment.AddChannelFragment;
 import mx.com.broadcastv.ui.fragment.DetailChannelFragment;
 import mx.com.broadcastv.ui.fragment.FavoritesFragment;
 import mx.com.broadcastv.ui.fragment.MainListFragment;
 import mx.com.broadcastv.ui.interfaces.OnClickCallback;
-import mx.com.broadcastv.ui.views.RevealLayout;
 import mx.com.broadcastv.util.ApplicationConstants;
 import mx.com.broadcastv.util.AsyncTaskHelper;
 import mx.com.broadcastv.util.BroadcastvSQLUtil;
@@ -85,6 +91,7 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
 
     private static final int REQUEST_CODE = 7 ;
     public static final java.lang.String SEARCH_CHANNEL_URI = "search_channel_uri";
+    private static final String TOKEN = "token";
     private Drawer drawer = null;
     private FragmentManager fm;
     private FrameLayout rootLayout;
@@ -100,13 +107,15 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private int searchSection;
-    private ProgressDialog progress;
-    private RevealLayout mRevealLayout;
+    private ProgressDialog  progress;
     private View mRevealView;
     private FloatingActionButton mFab;
     private CoordinatorLayout content;
     public  static User usr;
+    public  static String tokenDvc;
     private Uri searchChannelUri = null;
+    private CoordinatorLayout fragmentHidden;
+    private AddChannelFragment addChannelFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,8 +125,6 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
         fm.addOnBackStackChangedListener(this);
         rootLayout = (FrameLayout) findViewById(R.id.rootLayout);
         content = (CoordinatorLayout) findViewById(R.id.content);
-        mRevealLayout = (RevealLayout) findViewById(R.id.reveal_layout);
-        mRevealView = findViewById(R.id.reveal_view);
         mFab = (FloatingActionButton) findViewById(R.id.mFab);
         mFab.setOnClickListener(this);
         if (savedInstanceState == null) {
@@ -274,6 +281,7 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
                     getSupportActionBar().setTitle(R.string.nav_option_favoritos);
                     args.putString(FavoritesFragment.USER_ID,usr.getUserId());
                     checkFragmentToUse(ApplicationConstants.FAVORITOS_MENU_ID,args);
+                    mFab.setVisibility(View.GONE);
                 break;
             case ApplicationConstants.TODOS_MENU_ID:
                 if (getSupportActionBar() != null)
@@ -573,6 +581,7 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
                         TypeReference<List<User>> typeRef = new TypeReference<List<User>>(){};
                         List<User> list = mapper.readValue(response.get("User").traverse(), typeRef);
                         usr = BroadcastvSQLUtil.insertUserIfNotExists(ctx,list);
+                        tokenDvc = response.get("Token").asText();
                     }  catch (IOException e) {
                         Log.e(TAG, "execute: " + e.toString());
                     }
@@ -632,41 +641,32 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
     @Override
     public void onClick(View v) {
          if(v instanceof FloatingActionButton) {
-             mFab.setClickable(false); // Avoid naughty guys clicking FAB again and again...
-             int[] location = new int[2];
-             mFab.getLocationOnScreen(location);
-             Log.e(TAG, "onClick: "+ (mFab.getWidth() / 2));
-             Log.e(TAG, "onClick: "+ (mFab.getHeight() / 2));
-             location[0] += mFab.getWidth() / 2;
-             location[1] += mFab.getHeight() / 2;
+             int cx = (mFab.getLeft() + mFab.getRight()) / 2;
+             int cy = (mFab.getTop() + mFab.getBottom()) / 2;
 
-             Log.e("LocationArray", "onClick: "+ String.valueOf(location[0]));
-             Log.e("LocationArray", "onClick: "+ String.valueOf(location[1]));
-             final Intent intent = new Intent(MainListActivity.this, SearchActivity.class);
+             // get the final radius for the clipping circle
+             int dx = Math.max(cx, rootLayout.getWidth() - cx);
+             int dy = Math.max(cy, rootLayout.getHeight() - cy);
+             float finalRadius = (float) Math.hypot(dx, dy);
 
-             mRevealView.setVisibility(View.VISIBLE);
-             mRevealLayout.setVisibility(View.VISIBLE);
-
-             mRevealLayout.show(location[0],location[1]); // Expand from center of FAB. Actually, it just plays reveal animation.
-             mFab.postDelayed(new Runnable() {
-                 @Override
-                 public void run() {
-                     startActivity(intent);
-                     /**
-                      * Without using R.anim.hold, the screen will flash because of transition
-                      * of Activities.
-                      */
-                     overridePendingTransition(0, R.anim.hold);
-                 }
-             }, 600); // 600 is default duration of reveal animation in RevealLayout
-             mFab.postDelayed(new Runnable() {
-                 @Override
-                 public void run() {
-                     mFab.setClickable(true);
-                     mRevealLayout.setVisibility(View.INVISIBLE);
-                     mRevealView.setVisibility(View.INVISIBLE);
-                 }
-             }, 960);
+             // Android native animator
+             Animator animator =
+                     ViewAnimationUtils.createCircularReveal(rootLayout, cx, cy, 0, finalRadius);
+             animator.setInterpolator(new AccelerateDecelerateInterpolator());
+             animator.setDuration(400);
+             // make the view invisible when the animation is done
+//             animator.addListener(new AnimatorListenerAdapter() {
+//                 @Override
+//                 public void onAnimationEnd(Animator animation) {
+//                     super.onAnimationEnd(animation);
+////                     rootLayout.setVisibility(View.INVISIBLE);
+//                 }
+//             });
+             if (getSupportActionBar() != null)
+                 getSupportActionBar().setTitle(R.string.addChannel);
+             showChannelForm();
+             mFab.setVisibility(View.GONE);
+             animator.start();
          }
     }
 
@@ -694,6 +694,35 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
             fm.beginTransaction().replace(R.id.rootLayout, detailsFragment,
                     DetailChannelFragment.FRAGMENT_TAG)
                     .addToBackStack(DetailChannelFragment.FRAGMENT_TAG)
+                    .commit();
+            fm.executePendingTransactions();
+        }
+        mFab.setVisibility(View.GONE);
+    }
+
+    public void showChannelForm() {
+        addChannelFragment =(AddChannelFragment) fm.findFragmentByTag(AddChannelFragment.FRAGMENT_TAG);
+        if(addChannelFragment!=null){
+//            if(addChannelFragment.getId()==R.id.rootLayout){
+//                cleanBackStack();
+//            }
+        }
+//        isInMediaDetails = true;
+
+        addChannelFragment = (AddChannelFragment)fm.findFragmentByTag(AddChannelFragment.FRAGMENT_TAG);
+        if(addChannelFragment==null){
+            Bundle args = new Bundle();
+            args.putString(TOKEN,tokenDvc);
+            addChannelFragment = AddChannelFragment.newInstance(args);
+        }
+
+        drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if(addChannelFragment.getId()!=R.id.rootLayout) {
+            fm.beginTransaction().add(R.id.rootLayout, addChannelFragment,
+                    AddChannelFragment.FRAGMENT_TAG)
+                    .addToBackStack(AddChannelFragment.FRAGMENT_TAG)
                     .commit();
             fm.executePendingTransactions();
         }

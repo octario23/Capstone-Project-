@@ -52,6 +52,9 @@ import mx.com.broadcastv.R;
 import mx.com.broadcastv.adapter.MainListRecyclerViewAdapter;
 import mx.com.broadcastv.adapter.RecommendationsViewAdapter;
 import mx.com.broadcastv.data.ServicesContract;
+import mx.com.broadcastv.ui.MainListActivity;
+import mx.com.broadcastv.ui.interfaces.OnClickCallback;
+import mx.com.broadcastv.ui.views.AdjustableRecyclerView;
 import mx.com.broadcastv.util.BroadcastvSQLUtil;
 import mx.com.broadcastv.util.WindowCompatUtil;
 
@@ -64,6 +67,8 @@ public class DetailChannelFragment extends Fragment
     private static final String FILTER_POS = "" ;
     private static final int CHANNEL_LOADER = 1;
     private static final int RECOMMENDATIONS_LOADER = 2;
+    private static final String IS_FAVORITE = "is_favorite";
+    private static final String CHANNEL_ID_DATA = "channel_id_data";
 
     public static final int COL_ID = 0;
     public static final int COL_COUNTRY = 1;
@@ -95,12 +100,12 @@ public class DetailChannelFragment extends Fragment
     private ImageButton mExpandButton;
     private LinearLayout listContainer;
     private RadioButton extrasRadio;
-    private RecyclerView extrasList;
+    private AdjustableRecyclerView extrasList;
     private ScrollView scrollViewHandset;
     private int lastPositionFilter;
     private TextView description;
-    private FloatingActionButton mFab;
     private String item;
+    private FloatingActionButton mFab;
 
     public static DetailChannelFragment newInstance(Bundle args) {
         DetailChannelFragment fragment = new DetailChannelFragment();
@@ -183,20 +188,19 @@ public class DetailChannelFragment extends Fragment
 
         actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         mThumbnail              = (ImageView)       rootview.findViewById(R.id.image);
-//        mActionButton           = (ImageButton)     rootview.findViewById(R.id.action_button);
+        mActionButton           = (ImageButton)     rootview.findViewById(R.id.action_button);
         mContent                = (LinearLayout)    rootview.findViewById(R.id.content);
         mProgress               = (ProgressBar)     rootview.findViewById(R.id.loading_progress);
         mExpandButton           = (ImageButton)     rootview.findViewById(R.id.expand_description);
         listContainer           = (LinearLayout)    rootview.findViewById(R.id.lists_container);
-        extrasList              = (RecyclerView)    rootview.findViewById(R.id.myrecyclerview);
+        extrasList              = (AdjustableRecyclerView)    rootview.findViewById(R.id.myrecyclerview);
         scrollViewHandset       = (ScrollView)      rootview.findViewById(R.id.scroll);
         description             = (TextView)        rootview.findViewById(R.id.description);
-        mFab                    = (FloatingActionButton)        rootview.findViewById(R.id.mFab);
         linearLayoutManager     = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         myRecyclerViewAdapter   = new RecommendationsViewAdapter(getContext(),fm);
+        mFab                    = (FloatingActionButton)     getActivity().findViewById(R.id.mFab);
         extrasList.setAdapter(myRecyclerViewAdapter);
         extrasList.setLayoutManager(linearLayoutManager);
-
 
         if(savedInstanceState!=null){
             lastPositionFilter = savedInstanceState.getInt(FILTER_POS);
@@ -257,8 +261,6 @@ public class DetailChannelFragment extends Fragment
         float scrollRatio = (float) (alpha / 255f);
         int titleColor = getAlphaColor(Color.WHITE, scrollRatio);
         toolbar.setTitleTextColor(titleColor);
-        // Translate FAB
-        mFab.setTranslationY(-scrollY / 2);
 
     }
     private int getAlphaColor(int color, float scrollRatio) {
@@ -280,7 +282,23 @@ public class DetailChannelFragment extends Fragment
 
     @Override
     public void onClick(View v) {
-
+        if (v instanceof ImageButton){
+            Bundle data = (Bundle) v.getTag();
+            int isFavorite = 0;
+            if(data.getInt(IS_FAVORITE) == 1){
+                ((ImageButton)v).setImageResource(R.mipmap.start_icon);
+            } else {
+                ((ImageButton)v).setImageResource(R.mipmap.star_icon_selected);
+                isFavorite = 1;
+            }
+            BroadcastvSQLUtil.updateIsFavoriteChannel(getActivity(), MainListActivity.usr.getUserId(),isFavorite,data.getString(CHANNEL_ID_DATA));
+            onOrderChanged();
+            if(isFavorite == 1) {
+                ((OnClickCallback)getActivity()).showInteractiveMsg(getActivity().getResources().getString(R.string.added_favorite));
+            } else {
+                ((OnClickCallback)getActivity()).showInteractiveMsg(getActivity().getResources().getString(R.string.delete_favorite));
+            }
+        }
     }
 
 
@@ -339,6 +357,16 @@ public class DetailChannelFragment extends Fragment
                     toolbar.setTitle(data.getString(COL_NAME));
                     toolbar.setTitleTextColor(getResources().getColor(R.color.material_drawer_primary_text));
                     description.setContentDescription(data.getString(COL_DESCRIPTION));
+                    if (data.getInt(MainListFragment.COL_IS_FAVORITE) == 1) {
+                        mActionButton.setImageResource(R.mipmap.star_icon_selected);
+                    } else {
+                        mActionButton.setImageResource(R.mipmap.start_icon);
+                    }
+                    Bundle args = new Bundle();
+                    args.putInt(IS_FAVORITE,data.getInt(MainListFragment.COL_IS_FAVORITE));
+                    args.putString(CHANNEL_ID_DATA,data.getString(MainListFragment.COL_CHANNEL_ID));
+                    mActionButton.setTag(args);
+                    mActionButton.setOnClickListener(this);
                     Bitmap bitmap = ((BitmapDrawable) mThumbnail.getDrawable()).getBitmap();
                     Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                         public void onGenerated(Palette palette) {
@@ -375,11 +403,12 @@ public class DetailChannelFragment extends Fragment
     public void onDestroy() {
         super.onDestroy();
         restablishActionBar();
+        mFab.setVisibility(View.VISIBLE);
     }
 
     public void restablishActionBar() {
         rootLayout.setPadding(0, toolbar.getHeight(), 0, 0);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.material_drawer_primary_text));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.md_white_1000));
         toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         toolbar.getBackground().setAlpha(255);
         actionBar.setHomeAsUpIndicator(0);

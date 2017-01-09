@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class BroadcastvSQLHelper extends SQLiteOpenHelper {
 
     //    TODO if any change in the DB is made, update the database_version number
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 8;
 
     static final String DATABASE_NAME = "services.db";
 
@@ -39,7 +39,7 @@ public class BroadcastvSQLHelper extends SQLiteOpenHelper {
             " id_user INTEGER, " +
             " is_favorite INTEGER )" ;
 
-    String sqlCreateChannelUser = "CREATE TABLE Channel_User " +
+    String sqlCreateChannelUser = "CREATE TABLE Channel_User" +
             "(_id INTEGER PRIMARY KEY, " +
             " id_user INTEGER, " +
             " id_channel INTEGER )";
@@ -77,6 +77,9 @@ public class BroadcastvSQLHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS Login");
         db.execSQL("DROP TABLE IF EXISTS Users");
         db.execSQL("DROP TABLE IF EXISTS Channels");
-        db.execSQL("DROP TABLE IF EXISTS Channel_User");
+        db.execSQL(sqlCreateLogin);
+        db.execSQL(sqlCreateUsers);
+        db.execSQL(sqlCreateChannels);
+//        db.execSQL("DROP TABLE IF EXISTS Channel_User");
     }
 }

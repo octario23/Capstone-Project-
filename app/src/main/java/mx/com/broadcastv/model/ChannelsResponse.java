@@ -4,10 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.json.JSONObject;
 
-/**
- * Created by omarin on 12/11/16.
- */
-
 public class ChannelsResponse{
 
     private String ChannelId;

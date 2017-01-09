@@ -24,4 +24,20 @@
     <dimen name="widget_margin">8dp</dimen>
 
     <dimen name="spacing_small">4dp</dimen>
+
+    <!-- Definition for tablet dimensions -->
+    <dimen name="spacing_medium_tablet">12dp</dimen>
+    <dimen name="spacing_large_tablet">24dp</dimen>
+    <dimen name="spacing_xsmall_tablet">2dp</dimen>
+    <dimen name="spacing_small_tablet">4dp</dimen>
+    <dimen name="spacing_xlarge_tablet">32dp</dimen>
+    <dimen name="vod_item_width_tablet">370dp</dimen>
+    <dimen name="toolbar_double_height">256dp</dimen>
+
+    <dimen name="margin_tablet_small">5dp</dimen>
+    <dimen name="bottom_margin">16dp</dimen>
+    <dimen name="right_margin">16dp</dimen>
+    <dimen name="miniplayer_width">180dp</dimen>
+    <dimen name="miniplayer_height">106dp</dimen>
+    <dimen name="padding_player">1dp</dimen>
 </resources>
