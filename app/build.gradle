@@ -4,6 +4,15 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
 
+    signingConfigs {
+        release {
+            keyAlias "Udacity Keystore"
+            storePassword "udacity2017"
+            storeFile file('keystore.jks')
+            keyPassword "udacity2017"
+        }
+    }
+
     defaultConfig {
         applicationId "mx.com.broadcastv"
         minSdkVersion 15
@@ -24,6 +33,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }

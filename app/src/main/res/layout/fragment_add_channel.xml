@@ -24,7 +24,7 @@
             android:textColor="@color/material_drawer_selected"
             android:textColorHint="@color/material_drawer_selected"
             android:gravity="center"
-            android:nextFocusDown="@id/channelUrl"
+            android:nextFocusDown="@+id/channelUrl"
             android:imeOptions="actionNext" />
 
         <EditText
@@ -37,7 +37,7 @@
             android:textColorHint="@color/material_drawer_selected"
             android:gravity="center"
             android:inputType="text"
-            android:nextFocusDown="@id/addChannelBtn"
+            android:nextFocusDown="@+id/addChannelBtn"
             android:imeOptions="actionDone" />
 
         <Button android:layout_width="match_parent"
