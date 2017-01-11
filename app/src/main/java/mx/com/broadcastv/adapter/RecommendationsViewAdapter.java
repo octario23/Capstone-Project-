@@ -65,6 +65,7 @@ public class RecommendationsViewAdapter  extends
         holder.textItemGroup.setEllipsize(TextUtils.TruncateAt.END);
         holder.cardView.setTag(mCursor.getString(MainListFragment.COL_CHANNEL_ID));
         holder.cardView.setOnClickListener(this);
+        holder.cardView.setContentDescription(mCursor.getString(MainListFragment.COL_NAME));
         Bundle args = new Bundle();
         args.putInt(IS_FAVORITE,mCursor.getInt(MainListFragment.COL_IS_FAVORITE));
         args.putString(CHANNEL_ID,mCursor.getString(MainListFragment.COL_CHANNEL_ID));

@@ -92,12 +92,15 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
     private static final int REQUEST_CODE = 7 ;
     public static final java.lang.String SEARCH_CHANNEL_URI = "search_channel_uri";
     private static final String TOKEN = "token";
+    private static final String FRAGMENT_ID = "fragment_id";
+    private static final String IS_IN_DETAILS = "is_in_details";
+    private static final String IS_ADDING_CHANNEL = "adding_channel";
     private Drawer drawer = null;
     private FragmentManager fm;
     private FrameLayout rootLayout;
     private DetailChannelFragment detailsFragment;
     private Toolbar toolbar;
-    private long FragmentPosition;
+    private int FragmentPosition;
     private int lastPositionClicked;
     private long DEFAULT_POSITION = ApplicationConstants.TODOS_MENU_ID;
     private MainListFragment mainListFragment;
@@ -116,6 +119,7 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
     private Uri searchChannelUri = null;
     private CoordinatorLayout fragmentHidden;
     private AddChannelFragment addChannelFragment;
+    private boolean isAddingChannel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +135,6 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.rootLayout, new MainListFragment()).commit();
         }
-        getChannelsFromAPI();
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-7331083650726794~3780594661");
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -267,10 +270,8 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
 
     private void selectMaterialDrawerItem(IDrawerItem item) {
         Bundle args = new Bundle();
-        FragmentPosition = item.getIdentifier();
-        if (FragmentPosition == 0 && lastPositionClicked != 0) {
-            FragmentPosition = lastPositionClicked;
-        }
+        FragmentPosition = (int) item.getIdentifier();
+
         mainListFragment = (MainListFragment) fm.findFragmentByTag(MainListFragment.FRAGMENT_TAG);
         favoriteFragment = (FavoritesFragment) fm.findFragmentByTag(FavoritesFragment.FRAGMENT_TAG);
 
@@ -373,39 +374,41 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
     }
 
     public void setNavPosition(Bundle savedInstanceState) {
+        if(savedInstanceState !=null) {
+            FragmentPosition    = savedInstanceState.getInt(FRAGMENT_ID);
+            isInDetailFragment  = savedInstanceState.getBoolean(IS_IN_DETAILS);
+//            isAddingChannel  = savedInstanceState.getBoolean(IS_ADDING_CHANNEL);
+            if(isInDetailFragment ) {
+                drawer.setSelection(FragmentPosition, false);
+            }else {
+                drawer.setSelection(FragmentPosition);
+            }
+        }else {
             drawer.setSelection(DEFAULT_POSITION, true);
+            getChannelsFromAPI();
+        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         Log.i(TAG, "onSaveInstanceState");
         Log.i(TAG + "SaveinstancePos", String.valueOf(FragmentPosition));
-//        outState.putInt(FRAGMENT_ID, FragmentPosition);
-//        mDrawer.saveInstanceState(outState);
-//        outState.putInt(LAST_SEARCH_SECTION, searchSection);
-//
-//        outState.putInt(MEDIA_TYPE_SAVED, mTypeSaved);
-//        outState.putString(MEDIA_SAVED, mMediaSaved);
-//        outState.putString(CATEGORY, mCategory);
-//        outState.putBoolean(IS_IN_M_DETAILS, isInMediaDetails);
-//        outState.putBoolean(IS_IN_C_DETAILS, isInChannelDetails);
-//        outState.putBoolean(LOCATION, gotLocation);
-//        outState.putBoolean(FULL_LOADED,fullLoaded);
+        outState.putInt(FRAGMENT_ID, FragmentPosition);
+        drawer.saveInstanceState(outState);
+        outState.putBoolean(IS_IN_DETAILS, isInDetailFragment);
+//        outState.putBoolean(IS_ADDING_CHANNEL, isAddingChannel);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-//        mTypeSaved = savedInstanceState.getInt(MEDIA_TYPE_SAVED);
-//        mMediaSaved = savedInstanceState.getString(MEDIA_SAVED);
-//        mCategory = savedInstanceState.getString(CATEGORY);
-//        isInMediaDetails = savedInstanceState.getBoolean(IS_IN_M_DETAILS);
-//        isInChannelDetails = savedInstanceState.getBoolean(IS_IN_C_DETAILS);
-//        fullLoaded = savedInstanceState.getBoolean(FULL_LOADED);
-//        if(isInMediaDetails||isInChannelDetails){
-//            mDrawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
-//        }
+        isInDetailFragment = savedInstanceState.getBoolean(IS_IN_DETAILS);
+//        isAddingChannel = savedInstanceState.getBoolean(IS_ADDING_CHANNEL);
+        if(isInDetailFragment){
+            drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+        }
+        toolbar.setTitleTextColor(getResources().getColor(R.color.md_white_1000));
         setNavPosition(savedInstanceState);
 
         Log.i(TAG, "onRestoreInstanceState");
@@ -446,11 +449,21 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
         snackbar.show();
     }
 
+    @Override
+    public void closeAddChannelForm() {
+        drawer.setSelection(FragmentPosition);
+    }
+
     private void cleanBackStack() {
         detailsFragment = (DetailChannelFragment) fm.findFragmentByTag(DetailChannelFragment.FRAGMENT_TAG);
         if (detailsFragment != null) {
             fm.popBackStackImmediate();
             fm.beginTransaction().remove(detailsFragment).commit();
+        }
+        addChannelFragment = (AddChannelFragment) fm.findFragmentByTag(AddChannelFragment.FRAGMENT_TAG);
+        if (addChannelFragment != null) {
+            fm.popBackStackImmediate();
+            fm.beginTransaction().remove(addChannelFragment).commit();
         }
     }
 
@@ -703,9 +716,9 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
     public void showChannelForm() {
         addChannelFragment =(AddChannelFragment) fm.findFragmentByTag(AddChannelFragment.FRAGMENT_TAG);
         if(addChannelFragment!=null){
-//            if(addChannelFragment.getId()==R.id.rootLayout){
-//                cleanBackStack();
-//            }
+            if(addChannelFragment.getId()==R.id.rootLayout){
+                cleanBackStack();
+            }
         }
 //        isInMediaDetails = true;
 

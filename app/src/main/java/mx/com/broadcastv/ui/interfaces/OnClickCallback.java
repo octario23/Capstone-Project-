@@ -9,4 +9,6 @@ public interface OnClickCallback{
     void onPlayButtonClicked(String url);
 
     void showInteractiveMsg(String msg);
+
+    void closeAddChannelForm();
 }

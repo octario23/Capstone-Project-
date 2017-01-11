@@ -19,10 +19,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/channelName"
+            android:contentDescription="@string/channelName"
             android:inputType="text"
             android:textColor="@color/material_drawer_selected"
             android:textColorHint="@color/material_drawer_selected"
             android:gravity="center"
+            android:nextFocusDown="@id/channelUrl"
             android:imeOptions="actionNext" />
 
         <EditText
@@ -30,10 +32,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/channelUrl"
+            android:contentDescription="@string/channelUrl"
             android:textColor="@color/material_drawer_selected"
             android:textColorHint="@color/material_drawer_selected"
             android:gravity="center"
             android:inputType="text"
+            android:nextFocusDown="@id/addChannelBtn"
             android:imeOptions="actionDone" />
 
         <Button android:layout_width="match_parent"
@@ -41,6 +45,7 @@
                 android:id="@+id/addChannelBtn"
                 android:textColor="@color/material_drawer_selected"
                 android:background="@drawable/button_red"
+                android:contentDescription="@string/send"
                 android:text="@string/send"/>
     </LinearLayout>
 

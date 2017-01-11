@@ -66,6 +66,7 @@ public class MainListRecyclerViewAdapter  extends
         holder.textItemGroup.setEllipsize(TextUtils.TruncateAt.END);
         holder.cardView.setTag(mCursor.getString(MainListFragment.COL_CHANNEL_ID));
         holder.cardView.setOnClickListener(this);
+        holder.cardView.setContentDescription(mCursor.getString(MainListFragment.COL_NAME));
         holder.playButton.setTag(mCursor.getString(MainListFragment.COL_URL));
         holder.playButton.setOnClickListener(this);
     }

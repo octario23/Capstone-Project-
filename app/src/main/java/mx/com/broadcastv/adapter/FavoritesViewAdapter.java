@@ -60,6 +60,7 @@ public class FavoritesViewAdapter extends RecyclerView.Adapter<FavoritesViewAdap
         holder.textItemGroup.setEllipsize(TextUtils.TruncateAt.END);
         holder.cardView.setTag(mCursor.getString(FavoritesFragment.COL_CHANNEL_ID));
         holder.cardView.setOnClickListener(this);
+        holder.cardView.setContentDescription(mCursor.getString(FavoritesFragment.COL_NAME));
         holder.playButton.setTag(mCursor.getString(FavoritesFragment.COL_URL));
         holder.playButton.setOnClickListener(this);
         Bundle args = new Bundle();

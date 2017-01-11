@@ -39,6 +39,7 @@ import mx.com.broadcastv.model.AddChannelList;
 import mx.com.broadcastv.model.Request;
 import mx.com.broadcastv.model.Token;
 import mx.com.broadcastv.ui.MainListActivity;
+import mx.com.broadcastv.ui.interfaces.OnClickCallback;
 import mx.com.broadcastv.util.AsyncTaskHelper;
 import mx.com.broadcastv.util.Utils;
 import mx.com.broadcastv.util._Callback;
@@ -112,6 +113,7 @@ public class AddChannelFragment extends Fragment implements View.OnClickListener
         super.onDestroy();
         restablishActionBar();
         mFab.setVisibility(View.VISIBLE);
+        ((OnClickCallback)getActivity()).closeAddChannelForm();
     }
 
     public void restablishActionBar() {

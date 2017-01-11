@@ -13,6 +13,7 @@
             android:text="@string/search_encouragement"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/material_drawer_hint_text"
+            android:contentDescription="@string/search_encouragement"
             android:visibility="visible" />
 
         <mx.com.broadcastv.ui.views.AdjustableRecyclerView
@@ -21,8 +22,8 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:columnWidth="@dimen/vod_item_width_tablet"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
             android:visibility="gone" />
     </FrameLayout>
 
@@ -45,6 +46,7 @@
             android:text="@string/search_no_result_found"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/material_drawer_secondary_text"
+            android:contentDescription="@string/search_no_result_found"
             android:visibility="visible" />
 
     </LinearLayout>

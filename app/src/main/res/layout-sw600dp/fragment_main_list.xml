@@ -11,6 +11,6 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:columnWidth="@dimen/vod_item_width_tablet"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"/>
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"/>
 </LinearLayout>
