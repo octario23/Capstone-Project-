@@ -1,9 +1,6 @@
 package mx.com.broadcastv.ui.fragment;
 
-import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,13 +11,11 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -51,7 +46,7 @@ public class FavoritesFragment extends Fragment
     public static final int COL_USERNAME = 3;
     public static final int COL_USER_LOGON = 4;
 
-//    Channel columns
+    //    Channel columns
     public static final int CHANNEL_ID_COL = 0;
     public static final int COL_COUNTRY = 1;
     public static final int COL_DESCRIPTION = 2;
@@ -81,7 +76,7 @@ public class FavoritesFragment extends Fragment
 
     public static FavoritesFragment newInstance(Bundle args) {
         FavoritesFragment fragment = new FavoritesFragment();
-        if (args!=null){
+        if (args != null) {
             fragment.setArguments(args);
         }
         return fragment;
@@ -102,13 +97,13 @@ public class FavoritesFragment extends Fragment
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_favorites, container, false);
-        myRecyclerView          = (AdjustableRecyclerView) view.findViewById(R.id.myrecyclerview);
-        myRecyclerViewAdapter   = new FavoritesViewAdapter(getContext(), fm);
-        toolbar                 = (Toolbar)         getActivity().findViewById(R.id.toolbar);
-        rootLayout              = (FrameLayout)     getActivity().findViewById(R.id.rootLayout);
-        mFab                    = (FloatingActionButton)     getActivity().findViewById(R.id.mFab);
-        noItemsText             = (TextView)        view.findViewById(R.id.noItemsSectionText);
-        noRecordsLayout         = (FrameLayout)     view.findViewById(R.id.noRecordLayout);
+        myRecyclerView = (AdjustableRecyclerView) view.findViewById(R.id.myrecyclerview);
+        myRecyclerViewAdapter = new FavoritesViewAdapter(getContext(), fm);
+        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        rootLayout = (FrameLayout) getActivity().findViewById(R.id.rootLayout);
+        mFab = (FloatingActionButton) getActivity().findViewById(R.id.mFab);
+        noItemsText = (TextView) view.findViewById(R.id.noItemsSectionText);
+        noRecordsLayout = (FrameLayout) view.findViewById(R.id.noRecordLayout);
 
         mAdView = (AdView) view.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
@@ -127,8 +122,8 @@ public class FavoritesFragment extends Fragment
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
-        if(mPosition != ListView.INVALID_POSITION){
-            outState.putInt(SELECTED_KEY,mPosition);
+        if (mPosition != ListView.INVALID_POSITION) {
+            outState.putInt(SELECTED_KEY, mPosition);
         }
         super.onSaveInstanceState(outState);
     }
@@ -136,14 +131,14 @@ public class FavoritesFragment extends Fragment
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        switch (id){
+        switch (id) {
             case USER_LOADER:
                 Uri userUri;
                 userUri = ServicesContract.UserEntry.buildUserIdUriQuery(MainListActivity.usr.getUserId());
 
                 String mSelectionClause = null;
 
-                return  new CursorLoader(getActivity(),
+                return new CursorLoader(getActivity(),
                         userUri,
                         BroadcastvSQLUtil.USER_COLUMNS,
                         mSelectionClause,
@@ -151,9 +146,9 @@ public class FavoritesFragment extends Fragment
                         null);
 
             case CHANNEL_LOADER:
-                if(args !=null) {
+                if (args != null) {
                     Uri favoriteChannels = ServicesContract.ChannelEntry.buildFavoriteChannels(
-                            true,args.getString(USERID));
+                            true, args.getString(USERID));
                     Log.e("onCreateLoader: ", favoriteChannels.toString());
                     String mSelectionGroupClause = null;
 
@@ -170,11 +165,11 @@ public class FavoritesFragment extends Fragment
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        switch (loader.getId()){
+        switch (loader.getId()) {
             case USER_LOADER:
                 if (data != null && data.moveToNext()) {
                     Bundle loaderArgs = new Bundle();
-                    loaderArgs.putString(USERID,data.getString(COL_USER_ID));
+                    loaderArgs.putString(USERID, data.getString(COL_USER_ID));
                     getLoaderManager().initLoader(CHANNEL_LOADER, loaderArgs, this);
                 }
                 break;
@@ -183,7 +178,7 @@ public class FavoritesFragment extends Fragment
                 if (data != null && data.moveToFirst()) {
                     myRecyclerViewAdapter.swapCursor(data);
                     noRecordsLayout.setVisibility(View.GONE);
-                }else {
+                } else {
                     myRecyclerViewAdapter.swapCursor(null);
                     noRecordsLayout.setVisibility(View.VISIBLE);
                 }

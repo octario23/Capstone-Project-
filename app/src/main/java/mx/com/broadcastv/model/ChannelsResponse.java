@@ -2,9 +2,7 @@ package mx.com.broadcastv.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import org.json.JSONObject;
-
-public class ChannelsResponse{
+public class ChannelsResponse {
 
     private String ChannelId;
 

@@ -38,7 +38,7 @@ public class BroadcasTVWidgetProvider extends AppWidgetProvider {
 //            Intent clickIntentTemplate = useDetailActivity
 //                    ? new Intent(context, DetailActivity.class)
 //                    : new Intent(context, MainActivity.class);
-            Intent clickIntentTemplate = new Intent(context,MainListActivity.class);
+            Intent clickIntentTemplate = new Intent(context, MainListActivity.class);
             PendingIntent clickPendingIntentTemplate = TaskStackBuilder.create(context)
                     .addNextIntentWithParentStack(clickIntentTemplate)
                     .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -60,6 +60,7 @@ public class BroadcasTVWidgetProvider extends AppWidgetProvider {
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_list);
         }
     }
+
     /**
      * Sets the remote adapter used to fill in the list items
      *

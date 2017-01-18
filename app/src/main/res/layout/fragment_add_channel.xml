@@ -1,6 +1,5 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/contentAdd"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,7 +24,7 @@
             android:textColorHint="@color/material_drawer_selected"
             android:gravity="center"
             android:nextFocusDown="@+id/channelUrl"
-            android:imeOptions="actionNext" />
+            android:imeOptions="actionNext"/>
 
         <EditText
             android:id="@+id/channelUrl"
@@ -38,7 +37,7 @@
             android:gravity="center"
             android:inputType="text"
             android:nextFocusDown="@+id/addChannelBtn"
-            android:imeOptions="actionDone" />
+            android:imeOptions="actionDone"/>
 
         <Button android:layout_width="match_parent"
                 android:layout_height="wrap_content"

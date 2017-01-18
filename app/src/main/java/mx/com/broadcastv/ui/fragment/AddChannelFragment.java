@@ -6,9 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -37,8 +35,6 @@ import mx.com.broadcastv.R;
 import mx.com.broadcastv.model.AddChannel;
 import mx.com.broadcastv.model.AddChannelList;
 import mx.com.broadcastv.model.Request;
-import mx.com.broadcastv.model.Token;
-import mx.com.broadcastv.ui.MainListActivity;
 import mx.com.broadcastv.ui.interfaces.OnClickCallback;
 import mx.com.broadcastv.util.AsyncTaskHelper;
 import mx.com.broadcastv.util.Utils;
@@ -68,7 +64,7 @@ public class AddChannelFragment extends Fragment implements View.OnClickListener
 
     public static AddChannelFragment newInstance(Bundle args) {
         AddChannelFragment fragment = new AddChannelFragment();
-        if (args!=null){
+        if (args != null) {
             fragment.setArguments(args);
         }
         return fragment;
@@ -77,7 +73,7 @@ public class AddChannelFragment extends Fragment implements View.OnClickListener
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getArguments()!=null){
+        if (getArguments() != null) {
             token = getArguments().getString(TOKEN);
         }
     }
@@ -86,14 +82,14 @@ public class AddChannelFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        rootView            = inflater.inflate(R.layout.fragment_add_channel, container, false);
-        toolbar             = (Toolbar)         getActivity().findViewById(R.id.toolbar);
-        rootLayout          = (FrameLayout)     getActivity().findViewById(R.id.rootLayout);
-        mFab                = (FloatingActionButton)     getActivity().findViewById(R.id.mFab);
-        channelName         = (EditText)        rootView.findViewById(R.id.channelName);
-        channelUrl          = (EditText)        rootView.findViewById(R.id.channelUrl);
-        addButton           = (Button)        rootView.findViewById(R.id.addChannelBtn);
-        actionBar           = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        rootView = inflater.inflate(R.layout.fragment_add_channel, container, false);
+        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        rootLayout = (FrameLayout) getActivity().findViewById(R.id.rootLayout);
+        mFab = (FloatingActionButton) getActivity().findViewById(R.id.mFab);
+        channelName = (EditText) rootView.findViewById(R.id.channelName);
+        channelUrl = (EditText) rootView.findViewById(R.id.channelUrl);
+        addButton = (Button) rootView.findViewById(R.id.addChannelBtn);
+        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         toolbar.setTitleTextColor(Color.WHITE);
         addButton.setOnClickListener(this);
         return rootView;
@@ -113,7 +109,7 @@ public class AddChannelFragment extends Fragment implements View.OnClickListener
         super.onDestroy();
         restablishActionBar();
         mFab.setVisibility(View.VISIBLE);
-        ((OnClickCallback)getActivity()).closeAddChannelForm();
+        ((OnClickCallback) getActivity()).closeAddChannelForm();
     }
 
     public void restablishActionBar() {
@@ -127,7 +123,7 @@ public class AddChannelFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        if(v instanceof Button) {
+        if (v instanceof Button) {
             AddChannelList channelListObj = new AddChannelList();
             AddChannel channel = new AddChannel();
             List<AddChannel> channelList = new ArrayList<AddChannel>();
@@ -141,17 +137,17 @@ public class AddChannelFragment extends Fragment implements View.OnClickListener
             request.setRqt(channelListObj);
             progress = Utils.broadcastvLoading(getActivity());
             progress.show();
-            new AsyncTaskHelper((Activity) ctx, request,(new _Callback(){
+            new AsyncTaskHelper((Activity) ctx, request, (new _Callback() {
                 @Override
                 public void execute(JsonNode response, Context context) {
-                    if(response.get("Success")!= null && response.get("Success").asBoolean() == true) {
+                    if (response.get("Success") != null && response.get("Success").asBoolean() == true) {
                         progress.hide();
                         Toast.makeText(ctx,
-                                context.getResources().getString(R.string.channel_added),Toast.LENGTH_SHORT).show();
-                    }else{
+                                context.getResources().getString(R.string.channel_added), Toast.LENGTH_SHORT).show();
+                    } else {
                         progress.hide();
                         Toast.makeText(ctx,
-                                context.getResources().getString(R.string.error_network),Toast.LENGTH_SHORT).show();
+                                context.getResources().getString(R.string.error_network), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -163,10 +159,10 @@ public class AddChannelFragment extends Fragment implements View.OnClickListener
 
                 @Override
                 public HttpEntity<?> setHeader(Request request, HttpHeaders headers) {
-                    HttpEntity<?> requestEntity = new HttpEntity<Request>(request,headers);
+                    HttpEntity<?> requestEntity = new HttpEntity<Request>(request, headers);
                     return requestEntity;
                 }
-            }),"/RegistrarCanal").execute();
+            }), "/RegistrarCanal").execute();
         }
     }
 }

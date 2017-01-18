@@ -4,8 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 
 public class Utils {
-    public static ProgressDialog broadcastvLoading(Context context){
-        ProgressDialog progress = new ProgressDialog(context){
+    public static ProgressDialog broadcastvLoading(Context context) {
+        ProgressDialog progress = new ProgressDialog(context) {
             @Override
             public void onBackPressed() {
                 /** dismiss the progress bar and clean up here **/

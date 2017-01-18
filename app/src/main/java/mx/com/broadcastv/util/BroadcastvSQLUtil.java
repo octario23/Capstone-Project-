@@ -6,13 +6,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
 import java.util.List;
 import java.util.Vector;
 
 import mx.com.broadcastv.data.ServicesContract;
-import mx.com.broadcastv.model.Channels;
 import mx.com.broadcastv.model.ChannelsResponse;
 import mx.com.broadcastv.model.User;
 
@@ -47,9 +45,9 @@ public class BroadcastvSQLUtil {
         channelValues.put(ServicesContract.ChannelEntry.COL_ID_USER, idUser);
         channelValues.put(ServicesContract.ChannelEntry.COL_IS_FAVORITE, isFavorite);
 
-        if(context instanceof Activity) {
+        if (context instanceof Activity) {
             context.getContentResolver().update(ServicesContract.ChannelEntry.CONTENT_URI,
-                    channelValues,ServicesContract.ChannelEntry.COL_CHANNEL_ID+ "=?",new String[] {idChannel});
+                    channelValues, ServicesContract.ChannelEntry.COL_CHANNEL_ID + "=?", new String[]{idChannel});
         }
     }
 
@@ -80,7 +78,7 @@ public class BroadcastvSQLUtil {
             }
         }
 
-        if ( cVVector.size() > 0 ) {
+        if (cVVector.size() > 0) {
             ContentValues[] cvArray = new ContentValues[cVVector.size()];
             cVVector.toArray(cvArray);
             context.getContentResolver().bulkInsert(ServicesContract.ChannelEntry.CONTENT_URI, cvArray);
@@ -113,10 +111,10 @@ public class BroadcastvSQLUtil {
                 cVVector.add(userValues);
             }
 //            return last item of array of users
-                userData = usr;
+            userData = usr;
         }
 
-        if ( cVVector.size() > 0 ) {
+        if (cVVector.size() > 0) {
             ContentValues[] cvArray = new ContentValues[cVVector.size()];
             cVVector.toArray(cvArray);
             context.getContentResolver().bulkInsert(ServicesContract.UserEntry.CONTENT_URI, cvArray);

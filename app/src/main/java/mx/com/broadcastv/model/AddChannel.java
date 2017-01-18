@@ -11,6 +11,7 @@ public class AddChannel {
     public String getChannelName() {
         return ChannelName;
     }
+
     @JsonProperty("ChannelName")
     public void setChannelName(String channelName) {
         ChannelName = channelName;

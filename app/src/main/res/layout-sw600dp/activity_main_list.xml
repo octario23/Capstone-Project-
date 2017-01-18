@@ -16,15 +16,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-                <FrameLayout
-                    android:id="@+id/rootLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#EBEBEB"
-                    android:paddingTop="?attr/actionBarSize">
+            <FrameLayout
+                android:id="@+id/rootLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#EBEBEB"
+                android:paddingTop="?attr/actionBarSize">
 
-                </FrameLayout>
-
+            </FrameLayout>
 
 
             <android.support.v7.widget.Toolbar
@@ -41,7 +40,7 @@
                 android:src="@mipmap/ic_action_content_add"
                 app:layout_anchor="@id/rootLayout"
                 android:id="@+id/mFab"
-                app:layout_anchorGravity="bottom|right|end" />
+                app:layout_anchorGravity="bottom|right|end"/>
 
 
         </android.support.design.widget.CoordinatorLayout>

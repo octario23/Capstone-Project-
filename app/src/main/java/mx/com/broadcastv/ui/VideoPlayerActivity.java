@@ -4,38 +4,36 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.VideoView;
-import android.net.Uri;
-import android.widget.MediaController;
 
 import mx.com.broadcastv.R;
 import mx.com.broadcastv.util.ApplicationConstants;
-
-import static android.view.View.getDefaultSize;
 
 public class VideoPlayerActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener {
 
     private String url;
     private int lastOrientation = 0;
     private VideoView vidView;
-    private int mVideoWidth ;
-    private int mVideoHeight ;
+    private int mVideoWidth;
+    private int mVideoHeight;
     private ProgressBar loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getIntent() !=null){
+        if (getIntent() != null) {
             url = getIntent().getStringExtra(ApplicationConstants.VIDEO_URL);
         }
         mVideoWidth = mVideoHeight = 0;
         setContentView(R.layout.activity_video_player);
-        vidView = (VideoView)findViewById(R.id.myVideo);
-        loading = (ProgressBar)findViewById(R.id.loading_progress);
+        vidView = (VideoView) findViewById(R.id.myVideo);
+        loading = (ProgressBar) findViewById(R.id.loading_progress);
         MediaController vidControl = new MediaController(this);
         vidControl.setAnchorView(vidView);
         vidView.setMediaController(vidControl);
@@ -47,13 +45,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements MediaPlaye
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Intent intent = new Intent();
 
         switch (requestCode) {
             case ApplicationConstants.VIDEO_PROCESS:
-                if(resultCode == Activity.RESULT_OK ){
+                if (resultCode == Activity.RESULT_OK) {
                     intent.putExtra("result", " VIDEO_PROCESS finished");
                     setResult(Activity.RESULT_OK, intent);
                     finish();

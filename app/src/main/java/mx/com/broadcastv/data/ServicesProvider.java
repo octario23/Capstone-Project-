@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import mx.com.broadcastv.db.BroadcastvSQLHelper;
 
@@ -38,7 +37,7 @@ public class ServicesProvider extends ContentProvider {
     private static final SQLiteQueryBuilder sChannelQueryBuilder;
     private static final SQLiteQueryBuilder sChannelUserQueryBuilder;
 
-    static{
+    static {
         sLoginQueryBuilder = new SQLiteQueryBuilder();
         sLoginQueryBuilder.setTables(ServicesContract.LoginEntry.TABLE_NAME);
         sUserQueryBuilder = new SQLiteQueryBuilder();
@@ -105,9 +104,7 @@ public class ServicesProvider extends ContentProvider {
                     "." + ServicesContract.ChannelUserEntry.COL_ID_CHANNEL + " = ? ";
 
 
-
-
-    private Cursor getLoginByToken(Uri uri, String[] projection, String sortOrder){
+    private Cursor getLoginByToken(Uri uri, String[] projection, String sortOrder) {
         String token = ServicesContract.LoginEntry.getTokenFromUri(uri);
 
         String[] selectionArgs;
@@ -127,7 +124,7 @@ public class ServicesProvider extends ContentProvider {
         );
     }
 
-    private Cursor getLoginByUserId (Uri uri, String[] projection, String sortOrder){
+    private Cursor getLoginByUserId(Uri uri, String[] projection, String sortOrder) {
         String userId = ServicesContract.LoginEntry.getIdUserFromUri(uri);
 
         String[] selectionArgs;
@@ -198,11 +195,11 @@ public class ServicesProvider extends ContentProvider {
         if (groupId == 0 && removeSelf == 0) {
             selection = sChannelIdSelection;
             selectionArgs = new String[]{id};
-        } else if(groupId != 0 && removeSelf == 0) {
+        } else if (groupId != 0 && removeSelf == 0) {
             selectionArgs = new String[]{Integer.toString(groupId)};
             selection = sChannelGroupIdSelection;
-        }else {
-            selectionArgs = new String[]{Integer.toString(groupId),id};
+        } else {
+            selectionArgs = new String[]{Integer.toString(groupId), id};
             selection = sGroupIdWithRemoveSelection;
         }
 
@@ -217,7 +214,7 @@ public class ServicesProvider extends ContentProvider {
         );
     }
 
-    private Cursor getChannelByName(Uri uri, String[] projection, String sortOrder){
+    private Cursor getChannelByName(Uri uri, String[] projection, String sortOrder) {
         String name = ServicesContract.ChannelEntry.getChannelNameFromUri(uri);
 
         String[] selectionArgs;
@@ -244,8 +241,8 @@ public class ServicesProvider extends ContentProvider {
         String[] selectionArgs;
         String selection;
 
-        if(userId !=null) {
-            selectionArgs = new String[]{Integer.toString(isFavorite),userId};
+        if (userId != null) {
+            selectionArgs = new String[]{Integer.toString(isFavorite), userId};
             selection = sChannelIsFavoriteSelection;
 
 
@@ -261,7 +258,7 @@ public class ServicesProvider extends ContentProvider {
         return null;
     }
 
-    private Cursor getChannelUserById(Uri uri, String[] projection, String sortOrder){
+    private Cursor getChannelUserById(Uri uri, String[] projection, String sortOrder) {
         String id = ServicesContract.ChannelUserEntry.getUserIdFromUri(uri);
 
         String[] selectionArgs;
@@ -281,7 +278,7 @@ public class ServicesProvider extends ContentProvider {
         );
     }
 
-    private Cursor getChannelUserByChannel(Uri uri, String[] projection, String sortOrder){
+    private Cursor getChannelUserByChannel(Uri uri, String[] projection, String sortOrder) {
         String id = ServicesContract.ChannelUserEntry.getChannelIdFromUri(uri);
 
         String[] selectionArgs;
@@ -303,20 +300,20 @@ public class ServicesProvider extends ContentProvider {
 
     static UriMatcher buildUriMatcher() {
 
-        final UriMatcher matcher =  new UriMatcher(UriMatcher.NO_MATCH);
+        final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = ServicesContract.CONTENT_AUTHORITY;
 
         matcher.addURI(authority, ServicesContract.PATH_LOGIN, LOGIN);
         matcher.addURI(authority, ServicesContract.PATH_LOGIN + "/*", LOGIN_TOKEN);
         matcher.addURI(authority, ServicesContract.PATH_LOGIN + "/*/*", LOGIN_ID_USER);
         matcher.addURI(authority, ServicesContract.PATH_USERS, USER);
-        matcher.addURI(authority, ServicesContract.PATH_USERS + "/*",USER_ID);
+        matcher.addURI(authority, ServicesContract.PATH_USERS + "/*", USER_ID);
         matcher.addURI(authority, ServicesContract.PATH_USERS + "/*/*", USER_NAME);
         matcher.addURI(authority, ServicesContract.PATH_CHANNELS, CHANNEL);
-        matcher.addURI(authority, ServicesContract.PATH_CHANNELS + "/*",CHANNEL_ID);
+        matcher.addURI(authority, ServicesContract.PATH_CHANNELS + "/*", CHANNEL_ID);
         matcher.addURI(authority, ServicesContract.PATH_CHANNELS + "/*/*", CHANNEL_NAME);
         matcher.addURI(authority, ServicesContract.PATH_CHANNEL_USER, CHANNEL_USER);
-        matcher.addURI(authority, ServicesContract.PATH_CHANNEL_USER + "/*",CHANNEL_USER_ID);
+        matcher.addURI(authority, ServicesContract.PATH_CHANNEL_USER + "/*", CHANNEL_USER_ID);
         matcher.addURI(authority, ServicesContract.PATH_CHANNEL_USER + "/*/*", CHANNEL_USER_CHANNEL_ID);
 
         return matcher;
@@ -348,17 +345,17 @@ public class ServicesProvider extends ContentProvider {
             case USER_NAME:
                 return ServicesContract.UserEntry.CONTENT_ITEM_TYPE;
             case CHANNEL:
-                return  ServicesContract.ChannelEntry.CONTENT_TYPE;
+                return ServicesContract.ChannelEntry.CONTENT_TYPE;
             case CHANNEL_ID:
                 return ServicesContract.ChannelEntry.CONTENT_TYPE;
             case CHANNEL_NAME:
-                return  ServicesContract.ChannelEntry.CONTENT_TYPE;
+                return ServicesContract.ChannelEntry.CONTENT_TYPE;
             case CHANNEL_USER:
                 return ServicesContract.ChannelUserEntry.CONTENT_TYPE;
             case CHANNEL_USER_ID:
-                return  ServicesContract.ChannelUserEntry.CONTENT_TYPE;
+                return ServicesContract.ChannelUserEntry.CONTENT_TYPE;
             case CHANNEL_USER_CHANNEL_ID:
-                return  ServicesContract.ChannelUserEntry.CONTENT_TYPE;
+                return ServicesContract.ChannelUserEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -382,11 +379,11 @@ public class ServicesProvider extends ContentProvider {
                 break;
             }
             case LOGIN_TOKEN: {
-                retCursor = getLoginByToken(uri,projection,sortOrder);
+                retCursor = getLoginByToken(uri, projection, sortOrder);
                 break;
             }
-            case LOGIN_ID_USER:{
-                retCursor = getLoginByUserId(uri,projection,sortOrder);
+            case LOGIN_ID_USER: {
+                retCursor = getLoginByUserId(uri, projection, sortOrder);
                 break;
             }
             case USER: {
@@ -402,16 +399,16 @@ public class ServicesProvider extends ContentProvider {
                 break;
             }
             case USER_ID: {
-                retCursor = getUserById(uri,projection,sortOrder);
+                retCursor = getUserById(uri, projection, sortOrder);
                 break;
             }
-            case USER_NAME:{
-                retCursor = getUserByName(uri,projection,sortOrder);
+            case USER_NAME: {
+                retCursor = getUserByName(uri, projection, sortOrder);
                 break;
             }
-            case CHANNEL:{
+            case CHANNEL: {
                 int isFavorite = ServicesContract.ChannelEntry.getIsFavoriteFromUri(uri);
-                if(isFavorite == 0) {
+                if (isFavorite == 0) {
                     retCursor = mOpenHelper.getReadableDatabase().query(
                             ServicesContract.ChannelEntry.TABLE_NAME,
                             projection,
@@ -422,19 +419,19 @@ public class ServicesProvider extends ContentProvider {
                             sortOrder
                     );
                 } else {
-                    retCursor = getFavoriteChannels(uri,projection,sortOrder);
+                    retCursor = getFavoriteChannels(uri, projection, sortOrder);
                 }
                 break;
             }
-            case CHANNEL_ID:{
-                retCursor = getChannelById(uri,projection,sortOrder);
+            case CHANNEL_ID: {
+                retCursor = getChannelById(uri, projection, sortOrder);
                 break;
             }
-            case CHANNEL_NAME:{
-                retCursor = getChannelByName(uri,projection,sortOrder);
+            case CHANNEL_NAME: {
+                retCursor = getChannelByName(uri, projection, sortOrder);
                 break;
             }
-            case CHANNEL_USER:{
+            case CHANNEL_USER: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         ServicesContract.ChannelUserEntry.TABLE_NAME,
                         projection,
@@ -446,12 +443,12 @@ public class ServicesProvider extends ContentProvider {
                 );
                 break;
             }
-            case CHANNEL_USER_ID:{
-                retCursor = getChannelUserById(uri,projection,sortOrder);
+            case CHANNEL_USER_ID: {
+                retCursor = getChannelUserById(uri, projection, sortOrder);
                 break;
             }
-            case CHANNEL_USER_CHANNEL_ID:{
-                retCursor = getChannelUserByChannel(uri,projection,sortOrder);
+            case CHANNEL_USER_CHANNEL_ID: {
+                retCursor = getChannelUserByChannel(uri, projection, sortOrder);
                 break;
             }
             default:
@@ -471,31 +468,31 @@ public class ServicesProvider extends ContentProvider {
         switch (match) {
             case LOGIN: {
                 long _id = db.insert(ServicesContract.LoginEntry.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = ServicesContract.LoginEntry.buildLoginUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
-            case USER:{
+            case USER: {
                 long _id = db.insert(ServicesContract.UserEntry.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = ServicesContract.UserEntry.buildUsersUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
-            case CHANNEL:{
+            case CHANNEL: {
                 long _id = db.insert(ServicesContract.ChannelEntry.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = ServicesContract.ChannelEntry.buildChannelUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
-            case CHANNEL_USER:{
+            case CHANNEL_USER: {
                 long _id = db.insert(ServicesContract.ChannelUserEntry.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = ServicesContract.ChannelUserEntry.buildChannelUserUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
@@ -605,15 +602,15 @@ public class ServicesProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-        int rowsUpdated= 0;
-        switch (sUriMatcher.match(uri)){
-            case CHANNEL:{
+        int rowsUpdated = 0;
+        switch (sUriMatcher.match(uri)) {
+            case CHANNEL: {
                 rowsUpdated = db.update(
-                        ServicesContract.ChannelEntry.TABLE_NAME,values,selection,selectionArgs);
+                        ServicesContract.ChannelEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             }
             default:
-                throw  new UnsupportedOperationException("Unknown uri: " + uri);
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
         return rowsUpdated;
     }

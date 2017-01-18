@@ -37,14 +37,14 @@ public class BroadcastvSQLHelper extends SQLiteOpenHelper {
             " group_id TEXT, " +
             " group_name TEXT,  " +
             " id_user INTEGER, " +
-            " is_favorite INTEGER )" ;
+            " is_favorite INTEGER )";
 
     String sqlCreateChannelUser = "CREATE TABLE Channel_User" +
             "(_id INTEGER PRIMARY KEY, " +
             " id_user INTEGER, " +
             " id_channel INTEGER )";
 
-// TODO remove insert sql statement when connected to webservices
+    // TODO remove insert sql statement when connected to webservices
 //    String sqlInsertChannels =
 //            "INSERT INTO Channels (country,channel_id,description,name,language,url,group_id,group_name) " +
 //                    "VALUES ('MX',4,'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit ','WarCraft','SP', 'http://www.spruto.tv/get_file/8/0ebf37ecdcc7efe9ad25eb1a330b7814/215000/215324/215324.mp4',54,'Peliculas'), " +

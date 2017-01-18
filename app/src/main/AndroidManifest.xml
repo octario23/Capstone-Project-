@@ -31,17 +31,17 @@
             android:authorities="mx.com.broadcastv"
             android:exported="false"/>
 
-        <service android:name=".data.DataIntentService" />
+        <service android:name=".data.DataIntentService"/>
         <!--widget-->
         <receiver
             android:name=".widget.BroadcasTVWidgetProvider"
-            android:label="@string/title_widget_broadcastv" >
+            android:label="@string/title_widget_broadcastv">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="mx.com.broadcastv.ACTION_DATA_UPDATED" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="mx.com.broadcastv.ACTION_DATA_UPDATED"/>
             </intent-filter>
             <meta-data android:name="android.appwidget.provider"
-                       android:resource="@xml/widget_broadcastv" />
+                       android:resource="@xml/widget_broadcastv"/>
         </receiver>
         <service android:name=".widget.BroadcasTVWidgetRemoteViewService"
                  android:exported="false"

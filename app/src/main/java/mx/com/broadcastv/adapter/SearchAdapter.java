@@ -9,17 +9,11 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import mx.com.broadcastv.R;
 import mx.com.broadcastv.ui.SearchActivity;
-import mx.com.broadcastv.ui.fragment.MainListFragment;
 
 
 /**
@@ -27,7 +21,7 @@ import mx.com.broadcastv.ui.fragment.MainListFragment;
  * For more info contact : luis.crackle@gmail.com
  */
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder> implements
-        View.OnClickListener{
+        View.OnClickListener {
 
     SearchActivity.SearchSelectionListener listener;
 
@@ -46,18 +40,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
     public static final int COL_ID_USER_CHANNEL = 10;
     public static final int COL_IS_FAVORITE = 11;
 
-    public SearchAdapter(Context context,SearchActivity.SearchSelectionListener listener){
+    public SearchAdapter(Context context, SearchActivity.SearchSelectionListener listener) {
         this.context = context;
         this.listener = listener;
     }
 
-    public SearchAdapter(Context context){
+    public SearchAdapter(Context context) {
         this.context = context;
     }
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        CardView view= (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view,parent,false);
+        CardView view = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view, parent, false);
         return new ItemHolder(view);
     }
 
@@ -77,9 +71,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
 
     @Override
     public int getItemCount() {
-        if(mCursor== null){
+        if (mCursor == null) {
             return -1;
-        }else{
+        } else {
             return mCursor.getCount();
         }
     }
@@ -95,7 +89,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
 
     @Override
     public void onClick(View v) {
-        if(v instanceof CardView){
+        if (v instanceof CardView) {
             Intent data = new Intent();
             String channelId = (String) v.getTag();
             data.putExtra(SearchActivity.SEARCH_CHANNEL_URI, channelId);
@@ -106,7 +100,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
     }
 
 
-    public static class ItemHolder extends RecyclerView.ViewHolder{
+    public static class ItemHolder extends RecyclerView.ViewHolder {
 
         CardView cardView;
         TextView textItemName;
@@ -119,7 +113,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
             cardView = cView;
             textItemName = (TextView) cardView.findViewById(R.id.item_name);
             textItemGroup = (TextView) cardView.findViewById(R.id.item_group);
-            playButton    = (ImageView) cardView.findViewById(R.id.playButton);
+            playButton = (ImageView) cardView.findViewById(R.id.playButton);
         }
     }
 

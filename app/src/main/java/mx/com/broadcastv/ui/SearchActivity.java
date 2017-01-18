@@ -45,16 +45,17 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
     private String mQuery;
     private SearchAdapter searchAdapter;
 
-    public interface SearchSelectionListener{
+    public interface SearchSelectionListener {
         void searchSelection(Intent data);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_search, menu);
 
 
         final MenuItem searchItem = menu.findItem(R.id.search);
-        searchView  = (SearchView) searchItem.getActionView();
+        searchView = (SearchView) searchItem.getActionView();
         searchView.setQueryHint(getResources().getString(R.string.search_title));
         searchView.setFocusable(true);
         searchView.setIconified(false);
@@ -62,8 +63,8 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         searchView.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
         searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(this);
-        if(mQuery!=null){
-            searchView.setQuery(mQuery,true);
+        if (mQuery != null) {
+            searchView.setQuery(mQuery, true);
         }
         return true;
     }
@@ -83,25 +84,25 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        tool_bar = (Toolbar)findViewById(R.id.toolbar);
-        progressBar        = (ProgressBar)  findViewById(R.id.progressBar);
+        tool_bar = (Toolbar) findViewById(R.id.toolbar);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         mNoResultFoundText = (LinearLayout) findViewById(R.id.no_results);
-        hintText           = (TextView)     findViewById(R.id.search_encouragement_text);
+        hintText = (TextView) findViewById(R.id.search_encouragement_text);
         setSupportActionBar(tool_bar);
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar!=null) {
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         FragmentManager fm = getSupportFragmentManager();
 
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             mQuery = savedInstanceState.getString(QUERY);
         }
 
-        recyclerView= (AdjustableRecyclerView)findViewById(R.id.recycler);
+        recyclerView = (AdjustableRecyclerView) findViewById(R.id.recycler);
         recyclerView.addItemDecoration(new MarginDecoration(this));
         recyclerView.setHasFixedSize(true);
-        searchAdapter = new SearchAdapter(this,listener);
+        searchAdapter = new SearchAdapter(this, listener);
         //actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
     }
@@ -128,7 +129,8 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         searchView.clearFocus();
         return true;
     }
-    private void search(String query){
+
+    private void search(String query) {
         Log.i(SearchActivity.class.getSimpleName(), "Query: " + query);
         progressBar.setVisibility(View.VISIBLE);
         mQuery = query;
@@ -138,16 +140,17 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public void onClick(View v) {
-        if(v instanceof TextView){
+        if (v instanceof TextView) {
             Intent data = new Intent();
-            setResult(RESULT_OK,data);
+            setResult(RESULT_OK, data);
             ((SearchActivity) v.getContext()).finish();
         }
     }
+
     SearchSelectionListener listener = new SearchSelectionListener() {
         @Override
         public void searchSelection(Intent data) {
-            setResult(RESULT_OK,data);
+            setResult(RESULT_OK, data);
             finish();
         }
     };
@@ -155,20 +158,20 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putString(QUERY,mQuery);
+        outState.putString(QUERY, mQuery);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri channelUri = ServicesContract.ChannelEntry.buildChannelNameUriQuery("9999",mQuery);
+        Uri channelUri = ServicesContract.ChannelEntry.buildChannelNameUriQuery("9999", mQuery);
 
         String mSelectionClause = null;
 
-        return  new CursorLoader(this,
-        channelUri,
-        BroadcastvSQLUtil.CHANNELS_COLUMNS,
-        mSelectionClause,
+        return new CursorLoader(this,
+                channelUri,
+                BroadcastvSQLUtil.CHANNELS_COLUMNS,
+                mSelectionClause,
                 null,
                 null);
     }
@@ -182,7 +185,7 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
             recyclerView.setVisibility(View.VISIBLE);
             searchAdapter.swapCursor(data);
             recyclerView.setAdapter(searchAdapter);
-        }else {
+        } else {
             searchAdapter.swapCursor(null);
             recyclerView.setVisibility(View.GONE);
             hintText.setVisibility(View.VISIBLE);

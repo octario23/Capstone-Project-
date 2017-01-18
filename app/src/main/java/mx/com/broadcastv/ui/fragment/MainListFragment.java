@@ -13,9 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +29,7 @@ import mx.com.broadcastv.util.BroadcastvSQLUtil;
 /**
  * Created by  on 9/27/16.
  */
-public class MainListFragment extends Fragment  implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MainListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String FRAGMENT_TAG = MainListFragment.class.getSimpleName();
     private static final int CHANNEL_LOADER = 0;
@@ -63,13 +61,14 @@ public class MainListFragment extends Fragment  implements LoaderManager.LoaderC
 
     public static MainListFragment newInstance(Bundle args) {
         MainListFragment fragment = new MainListFragment();
-        if (args!=null){
+        if (args != null) {
             fragment.setArguments(args);
         }
         return fragment;
     }
 
-    public MainListFragment() {}
+    public MainListFragment() {
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,11 +81,11 @@ public class MainListFragment extends Fragment  implements LoaderManager.LoaderC
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_main_list, container, false);
-        myRecyclerView          = (AdjustableRecyclerView) view.findViewById(R.id.myrecyclerview);
+        myRecyclerView = (AdjustableRecyclerView) view.findViewById(R.id.myrecyclerview);
 //        linearLayoutManager     = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        myRecyclerViewAdapter   = new MainListRecyclerViewAdapter(getContext(),fm);
-        toolbar                 = (Toolbar)         getActivity().findViewById(R.id.toolbar);
-        rootLayout              = (FrameLayout)     getActivity().findViewById(R.id.rootLayout);
+        myRecyclerViewAdapter = new MainListRecyclerViewAdapter(getContext(), fm);
+        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        rootLayout = (FrameLayout) getActivity().findViewById(R.id.rootLayout);
 
         myRecyclerView.setAdapter(myRecyclerViewAdapter);
 //        myRecyclerView.setLayoutManager(linearLayoutManager);
@@ -99,8 +98,8 @@ public class MainListFragment extends Fragment  implements LoaderManager.LoaderC
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
-        if(mPosition != ListView.INVALID_POSITION){
-            outState.putInt(SELECTED_KEY,mPosition);
+        if (mPosition != ListView.INVALID_POSITION) {
+            outState.putInt(SELECTED_KEY, mPosition);
         }
         super.onSaveInstanceState(outState);
     }
@@ -112,16 +111,16 @@ public class MainListFragment extends Fragment  implements LoaderManager.LoaderC
         if (args != null) {
             selectedChannels = args.getInt(CHANNELS_TO_SHOW);
         }
-        if(selectedChannels == 0){
+        if (selectedChannels == 0) {
             channelUri = ServicesContract.ChannelEntry.buildChannelUri("*");
         } else {
 //           TODO 9999 default channel to only get information using groupId
-            channelUri = ServicesContract.ChannelEntry.buildChannelWithGroupId("9999",selectedChannels);
+            channelUri = ServicesContract.ChannelEntry.buildChannelWithGroupId("9999", selectedChannels);
         }
 
         String mSelectionClause = null;
 
-        return  new CursorLoader(getActivity(),
+        return new CursorLoader(getActivity(),
                 channelUri,
                 BroadcastvSQLUtil.CHANNELS_COLUMNS,
                 mSelectionClause,
@@ -136,7 +135,7 @@ public class MainListFragment extends Fragment  implements LoaderManager.LoaderC
             if (mPosition != ListView.INVALID_POSITION) {
                 myRecyclerView.smoothScrollToPosition(mPosition);
             }
-        }else {
+        } else {
             myRecyclerViewAdapter.swapCursor(null);
         }
     }
@@ -149,13 +148,14 @@ public class MainListFragment extends Fragment  implements LoaderManager.LoaderC
 
     /**
      * state of fragment used to set the toolbar properties for watchNow section
+     *
      * @param view
      * @param savedInstanceState
      */
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(toolbar!=null) {
+        if (toolbar != null) {
             if (rootLayout.getPaddingTop() == 0) {
                 rootLayout.setPadding(0, toolbar.getHeight(), 0, 0);
                 ColorDrawable background = (ColorDrawable) toolbar.getBackground();

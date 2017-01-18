@@ -9,7 +9,8 @@
     <dimen name="widget_broadcastv_default_width">220dp</dimen>
     <dimen name="widget_broadcastv_default_height">180dp</dimen>
     <dimen name="widget_broadcastv_min_resize_width">180dp</dimen>
-    <dimen name="widget_broadcastv_min_resize_height">@dimen/widget_broadcastv_min_resize_width</dimen>
+    <dimen name="widget_broadcastv_min_resize_height">@dimen/widget_broadcastv_min_resize_width
+    </dimen>
     <dimen name="widget_broadcastv_large_width">250dp</dimen>
 
 

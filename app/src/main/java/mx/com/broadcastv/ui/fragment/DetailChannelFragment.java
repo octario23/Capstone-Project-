@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -21,15 +20,14 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -38,18 +36,11 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.support.v7.graphics.Palette;
-
-import com.nineoldandroids.view.ViewHelper;
-import com.nineoldandroids.view.ViewPropertyAnimator;
 
 import mx.com.broadcastv.BroadcastvApplication;
 import mx.com.broadcastv.R;
-import mx.com.broadcastv.adapter.MainListRecyclerViewAdapter;
 import mx.com.broadcastv.adapter.RecommendationsViewAdapter;
 import mx.com.broadcastv.data.ServicesContract;
 import mx.com.broadcastv.ui.MainListActivity;
@@ -60,11 +51,11 @@ import mx.com.broadcastv.util.WindowCompatUtil;
 
 
 public class DetailChannelFragment extends Fragment
-        implements View.OnClickListener, ViewTreeObserver.OnScrollChangedListener,LoaderManager.LoaderCallbacks<Cursor>{
+        implements View.OnClickListener, ViewTreeObserver.OnScrollChangedListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String FRAGMENT_TAG = DetailChannelFragment.class.getSimpleName();
     public static final String DETAIL_URI = "URI";
-    private static final String FILTER_POS = "" ;
+    private static final String FILTER_POS = "";
     private static final int CHANNEL_LOADER = 1;
     private static final int RECOMMENDATIONS_LOADER = 2;
     private static final String IS_FAVORITE = "is_favorite";
@@ -82,7 +73,7 @@ public class DetailChannelFragment extends Fragment
     public static final int COL_GROUP_NAME = 9;
     private static final String SELECTED_KEY = "selected_position";
     private static final String CHANNEL_GROUP_ID = "channel_group_id";
-    private static final String CHANNEL_ID = "channel_id" ;
+    private static final String CHANNEL_ID = "channel_id";
 
     private LinearLayoutManager linearLayoutManager;
     private RecommendationsViewAdapter myRecyclerViewAdapter;
@@ -109,7 +100,7 @@ public class DetailChannelFragment extends Fragment
 
     public static DetailChannelFragment newInstance(Bundle args) {
         DetailChannelFragment fragment = new DetailChannelFragment();
-        if (args!=null){
+        if (args != null) {
             fragment.setArguments(args);
         }
         return fragment;
@@ -128,7 +119,7 @@ public class DetailChannelFragment extends Fragment
         Log.i(FRAGMENT_TAG, "onCreate");
 //        setHasOptionsMenu(true);
         fm = getActivity().getSupportFragmentManager();
-        if(getArguments()!=null){
+        if (getArguments() != null) {
             mUri = Uri.parse(getArguments().getString(DETAIL_URI));
         }
     }
@@ -142,14 +133,15 @@ public class DetailChannelFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-        if(scrollViewHandset!=null) {
+        if (scrollViewHandset != null) {
             scrollViewHandset.getViewTreeObserver().addOnScrollChangedListener(this);
         }
     }
+
     @Override
     public void onPause() {
         super.onPause();
-        if(scrollViewHandset!=null) {
+        if (scrollViewHandset != null) {
             scrollViewHandset.getViewTreeObserver().removeOnScrollChangedListener(this);
         }
     }
@@ -164,15 +156,15 @@ public class DetailChannelFragment extends Fragment
         // TODO uncomment layout for landscape for tablet when you might also like is available using same layout as portrair for now
         rootview = inflater.inflate(R.layout.fragment_detail_channel, container, false);
         getActivity().invalidateOptionsMenu();
-        toolbar             = (Toolbar)         getActivity().findViewById(R.id.toolbar);
-        rootLayout          = (FrameLayout)     getActivity().findViewById(R.id.rootLayout);
+        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        rootLayout = (FrameLayout) getActivity().findViewById(R.id.rootLayout);
 //        channelId = getArguments().getString(CHANNEL_ID);
-        if(BroadcastvApplication.getInstance().isTablet()){
+        if (BroadcastvApplication.getInstance().isTablet()) {
 //            if(!Application.getInstance().isLandscape()){
 //                detailsTwoPanel = false;
-                toolbar.setBackgroundColor(getResources().getColor(R.color.md_white_1000));
-                ColorDrawable background = (ColorDrawable) toolbar.getBackground();
-                background.setAlpha(0);
+            toolbar.setBackgroundColor(getResources().getColor(R.color.md_white_1000));
+            ColorDrawable background = (ColorDrawable) toolbar.getBackground();
+            background.setAlpha(0);
 //            }
 //            else{
 //                detailsTwoPanel = true;
@@ -180,29 +172,29 @@ public class DetailChannelFragment extends Fragment
 //                ColorDrawable background = (ColorDrawable) toolbar.getBackground();
 //                background.setAlpha(0);
 //            }
-        }else{
+        } else {
 //                detailsTwoPanel = false;
 //                ColorDrawable background = (ColorDrawable) toolbar.getBackground();
 //                background.setAlpha(0);
         }
 
-        actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        mThumbnail              = (ImageView)       rootview.findViewById(R.id.image);
-        mActionButton           = (ImageButton)     rootview.findViewById(R.id.action_button);
-        mContent                = (LinearLayout)    rootview.findViewById(R.id.content);
-        mProgress               = (ProgressBar)     rootview.findViewById(R.id.loading_progress);
-        mExpandButton           = (ImageButton)     rootview.findViewById(R.id.expand_description);
-        listContainer           = (LinearLayout)    rootview.findViewById(R.id.lists_container);
-        extrasList              = (AdjustableRecyclerView)    rootview.findViewById(R.id.myrecyclerview);
-        scrollViewHandset       = (ScrollView)      rootview.findViewById(R.id.scroll);
-        description             = (TextView)        rootview.findViewById(R.id.description);
-        linearLayoutManager     = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        myRecyclerViewAdapter   = new RecommendationsViewAdapter(getContext(),fm);
-        mFab                    = (FloatingActionButton)     getActivity().findViewById(R.id.mFab);
+        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        mThumbnail = (ImageView) rootview.findViewById(R.id.image);
+        mActionButton = (ImageButton) rootview.findViewById(R.id.action_button);
+        mContent = (LinearLayout) rootview.findViewById(R.id.content);
+        mProgress = (ProgressBar) rootview.findViewById(R.id.loading_progress);
+        mExpandButton = (ImageButton) rootview.findViewById(R.id.expand_description);
+        listContainer = (LinearLayout) rootview.findViewById(R.id.lists_container);
+        extrasList = (AdjustableRecyclerView) rootview.findViewById(R.id.myrecyclerview);
+        scrollViewHandset = (ScrollView) rootview.findViewById(R.id.scroll);
+        description = (TextView) rootview.findViewById(R.id.description);
+        linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        myRecyclerViewAdapter = new RecommendationsViewAdapter(getContext(), fm);
+        mFab = (FloatingActionButton) getActivity().findViewById(R.id.mFab);
         extrasList.setAdapter(myRecyclerViewAdapter);
         extrasList.setLayoutManager(linearLayoutManager);
 
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             lastPositionFilter = savedInstanceState.getInt(FILTER_POS);
         }
         return rootview;
@@ -218,7 +210,7 @@ public class DetailChannelFragment extends Fragment
         background.setColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
     }
 
-    public  void setListViewHeightBasedOnChildren(ListView listView) {
+    public void setListViewHeightBasedOnChildren(ListView listView) {
 
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null)
@@ -240,15 +232,17 @@ public class DetailChannelFragment extends Fragment
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 //        if(!detailsTwoPanel) {
-            toolbar.setBackgroundColor(palette.getMutedColor(primary));
-            WindowCompatUtil.setStatusBarcolor(getActivity().getWindow(), palette.getDarkMutedColor(primaryDark));
-            initScrollFade(image);
-            ActivityCompat.startPostponedEnterTransition(getActivity());
+        toolbar.setBackgroundColor(palette.getMutedColor(primary));
+        WindowCompatUtil.setStatusBarcolor(getActivity().getWindow(), palette.getDarkMutedColor(primaryDark));
+        initScrollFade(image);
+        ActivityCompat.startPostponedEnterTransition(getActivity());
 //        }
     }
+
     private void initScrollFade(final ImageView image) {
         setComponentsStatus(scrollViewHandset, image);
     }
+
     private void setComponentsStatus(View scrollView, ImageView image) {
         int scrollY = scrollView.getScrollY();
         image.setTranslationY(-scrollY / 2);
@@ -263,13 +257,16 @@ public class DetailChannelFragment extends Fragment
         toolbar.setTitleTextColor(titleColor);
 
     }
+
     private int getAlphaColor(int color, float scrollRatio) {
         return Color.argb((int) (scrollRatio * 255f), Color.red(color), Color.green(color), Color.blue(color));
     }
-    public float getFadingAlpha(float padding, float scrollY){
-        return 0 + (padding-scrollY)/padding;
+
+    public float getFadingAlpha(float padding, float scrollY) {
+        return 0 + (padding - scrollY) / padding;
     }
-    protected void resizePoster(float resize,ImageView view){
+
+    protected void resizePoster(float resize, ImageView view) {
 
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
         params.width -= resize;
@@ -282,21 +279,21 @@ public class DetailChannelFragment extends Fragment
 
     @Override
     public void onClick(View v) {
-        if (v instanceof ImageButton){
+        if (v instanceof ImageButton) {
             Bundle data = (Bundle) v.getTag();
             int isFavorite = 0;
-            if(data.getInt(IS_FAVORITE) == 1){
-                ((ImageButton)v).setImageResource(R.mipmap.start_icon);
+            if (data.getInt(IS_FAVORITE) == 1) {
+                ((ImageButton) v).setImageResource(R.mipmap.start_icon);
             } else {
-                ((ImageButton)v).setImageResource(R.mipmap.star_icon_selected);
+                ((ImageButton) v).setImageResource(R.mipmap.star_icon_selected);
                 isFavorite = 1;
             }
-            BroadcastvSQLUtil.updateIsFavoriteChannel(getActivity(), MainListActivity.usr.getUserId(),isFavorite,data.getString(CHANNEL_ID_DATA));
+            BroadcastvSQLUtil.updateIsFavoriteChannel(getActivity(), MainListActivity.usr.getUserId(), isFavorite, data.getString(CHANNEL_ID_DATA));
             onOrderChanged();
-            if(isFavorite == 1) {
-                ((OnClickCallback)getActivity()).showInteractiveMsg(getActivity().getResources().getString(R.string.added_favorite));
+            if (isFavorite == 1) {
+                ((OnClickCallback) getActivity()).showInteractiveMsg(getActivity().getResources().getString(R.string.added_favorite));
             } else {
-                ((OnClickCallback)getActivity()).showInteractiveMsg(getActivity().getResources().getString(R.string.delete_favorite));
+                ((OnClickCallback) getActivity()).showInteractiveMsg(getActivity().getResources().getString(R.string.delete_favorite));
             }
         }
     }
@@ -304,16 +301,16 @@ public class DetailChannelFragment extends Fragment
 
     @Override
     public void onScrollChanged() {
-        setComponentsStatus(scrollViewHandset,mThumbnail);
+        setComponentsStatus(scrollViewHandset, mThumbnail);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        switch (id){
+        switch (id) {
             case CHANNEL_LOADER:
                 String mSelectionClause = null;
 
-                return  new CursorLoader(getActivity(),
+                return new CursorLoader(getActivity(),
                         mUri,
                         BroadcastvSQLUtil.CHANNELS_COLUMNS,
                         mSelectionClause,
@@ -321,11 +318,11 @@ public class DetailChannelFragment extends Fragment
                         null);
 
             case RECOMMENDATIONS_LOADER:
-                if(args !=null) {
+                if (args != null) {
                     Uri groupIdUri =
                             ServicesContract.ChannelEntry.buildChannelWithGroupIdAndRemoveSelf(
                                     Integer.parseInt(args.getString(CHANNEL_ID)),
-                                    Integer.parseInt(args.getString(CHANNEL_GROUP_ID)),true);
+                                    Integer.parseInt(args.getString(CHANNEL_GROUP_ID)), true);
                     Log.e("onCreateLoader: ", groupIdUri.toString());
                     String mSelectionGroupClause = null;
 
@@ -342,12 +339,12 @@ public class DetailChannelFragment extends Fragment
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        switch (loader.getId()){
+        switch (loader.getId()) {
             case CHANNEL_LOADER:
                 if (data != null && data.moveToFirst()) {
                     Bundle loaderArgs = new Bundle();
-                    loaderArgs.putString(CHANNEL_GROUP_ID,String.valueOf(data.getInt(COL_GROUP_ID)));
-                    loaderArgs.putString(CHANNEL_ID,String.valueOf(data.getInt(COL_CHANNEL_ID)));
+                    loaderArgs.putString(CHANNEL_GROUP_ID, String.valueOf(data.getInt(COL_GROUP_ID)));
+                    loaderArgs.putString(CHANNEL_ID, String.valueOf(data.getInt(COL_CHANNEL_ID)));
                     getLoaderManager().initLoader(RECOMMENDATIONS_LOADER, loaderArgs, this);
                     scrollViewHandset.setVisibility(View.VISIBLE);
                     listContainer.setVisibility(View.VISIBLE);
@@ -363,8 +360,8 @@ public class DetailChannelFragment extends Fragment
                         mActionButton.setImageResource(R.mipmap.start_icon);
                     }
                     Bundle args = new Bundle();
-                    args.putInt(IS_FAVORITE,data.getInt(MainListFragment.COL_IS_FAVORITE));
-                    args.putString(CHANNEL_ID_DATA,data.getString(MainListFragment.COL_CHANNEL_ID));
+                    args.putInt(IS_FAVORITE, data.getInt(MainListFragment.COL_IS_FAVORITE));
+                    args.putString(CHANNEL_ID_DATA, data.getString(MainListFragment.COL_CHANNEL_ID));
                     mActionButton.setTag(args);
                     mActionButton.setOnClickListener(this);
                     Bitmap bitmap = ((BitmapDrawable) mThumbnail.getDrawable()).getBitmap();

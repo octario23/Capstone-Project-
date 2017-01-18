@@ -1,28 +1,15 @@
 package mx.com.broadcastv.widget;
 
-import android.annotation.TargetApi;
-import android.app.PendingIntent;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Binder;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.TypedValue;
 import android.widget.AdapterView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import java.util.concurrent.ExecutionException;
-
 import mx.com.broadcastv.R;
 import mx.com.broadcastv.data.ServicesContract;
-import mx.com.broadcastv.ui.MainListActivity;
 import mx.com.broadcastv.util.BroadcastvSQLUtil;
 
 public class BroadcasTVWidgetRemoteViewService extends RemoteViewsService {
@@ -58,6 +45,7 @@ public class BroadcasTVWidgetRemoteViewService extends RemoteViewsService {
                     data.close();
                 }
 //                Tell the content provider is a call from the app and restore calling identity
+//                TODO make an API call to get the User ID and display the content in the widget
                 final long identityToken = Binder.clearCallingIdentity();
                 Uri favoriteChannelsUri = ServicesContract.ChannelEntry
                         .buildFavoriteChannels(true, "1");

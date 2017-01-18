@@ -1,7 +1,6 @@
 package mx.com.broadcastv.util;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.os.Build;
 import android.view.Window;
 

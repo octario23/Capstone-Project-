@@ -12,7 +12,8 @@ public class VideoPlayerHelper {
     public VideoView videoView;
 
 
-    private VideoPlayerHelper() {}
+    private VideoPlayerHelper() {
+    }
 
     public static VideoPlayerHelper getInstance() {
         if (sInstance == null) {
@@ -20,7 +21,6 @@ public class VideoPlayerHelper {
         }
         return sInstance;
     }
-
 
 
     public boolean isVideoSetup() {
@@ -92,6 +92,7 @@ public class VideoPlayerHelper {
         videoView.setVideoURI(uri);
 
     }
+
     public void setVideoPath(String path) {
 
         videoView.setVideoPath(path);

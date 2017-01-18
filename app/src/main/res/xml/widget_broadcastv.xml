@@ -10,4 +10,4 @@
     android:resizeMode="horizontal"
     android:updatePeriodMillis="3600000"
     android:widgetCategory="home_screen|keyguard"
-    tools:ignore="UnusedAttribute" />
+    tools:ignore="UnusedAttribute"/>

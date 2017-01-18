@@ -9,9 +9,10 @@ import mx.com.broadcastv.R;
 
 public class MarginDecoration extends RecyclerView.ItemDecoration {
     private int margin;
+
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        outRect.set(margin,margin,margin,margin);
+        outRect.set(margin, margin, margin, margin);
     }
 
     public MarginDecoration(Context context) {

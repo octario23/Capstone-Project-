@@ -23,7 +23,7 @@ public class Request<T> implements Serializable {
     }
 
     public void setRqt(T rqt) {
-        this.rqt= rqt;
+        this.rqt = rqt;
     }
 
 }

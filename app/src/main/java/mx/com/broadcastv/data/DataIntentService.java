@@ -3,21 +3,19 @@ package mx.com.broadcastv.data;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 public class DataIntentService extends IntentService {
 
     public static final String LOG_TAG = DataIntentService.class.getSimpleName();
     public static final String ACTION_DATA_UPDATED =
             "mx.com.broadcastv.data.ACTION_DATA_UPDATED";
-    public DataIntentService()
-    {
+
+    public DataIntentService() {
         super("DataIntentService");
     }
 
     @Override
-    protected void onHandleIntent(Intent intent)
-    {
+    protected void onHandleIntent(Intent intent) {
         updateWidgets();
 //        getData("n2");
 //        getData("p2");
@@ -113,9 +111,9 @@ public class DataIntentService extends IntentService {
 //    }
 //    private void processJSONdata (String JSONdata, Context mContext, boolean isReal)
 //    {
-        //JSON data
-        // This set of league codes is for the 2015/2016 season. In fall of 2016, they will need to
-        // be updated. Feel free to use the codes
+    //JSON data
+    // This set of league codes is for the 2015/2016 season. In fall of 2016, they will need to
+    // be updated. Feel free to use the codes
 //        final String BUNDESLIGA1 = "394";
 //        final String BUNDESLIGA2 = "395";
 //        final String LIGUE1 = "396";
@@ -246,7 +244,7 @@ public class DataIntentService extends IntentService {
 //                    DatabaseContract.BASE_CONTENT_URI,insert_data);
 //            updateWidgets();
 
-            //Log.v(LOG_TAG,"Succesfully Inserted : " + String.valueOf(inserted_data));
+    //Log.v(LOG_TAG,"Succesfully Inserted : " + String.valueOf(inserted_data));
 //        }
 //        catch (JSONException e)
 //        {

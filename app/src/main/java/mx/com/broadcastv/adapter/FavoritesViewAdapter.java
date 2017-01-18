@@ -3,9 +3,7 @@ package mx.com.broadcastv.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -36,7 +34,7 @@ public class FavoritesViewAdapter extends RecyclerView.Adapter<FavoritesViewAdap
     private FavoritesFragment favoriteFragment;
     private static final String USERID = "user_id";
 
-    public FavoritesViewAdapter(Context context, FragmentManager fm){
+    public FavoritesViewAdapter(Context context, FragmentManager fm) {
         this.context = context;
         this.fm = fm;
     }
@@ -64,9 +62,9 @@ public class FavoritesViewAdapter extends RecyclerView.Adapter<FavoritesViewAdap
         holder.playButton.setTag(mCursor.getString(FavoritesFragment.COL_URL));
         holder.playButton.setOnClickListener(this);
         Bundle args = new Bundle();
-        args.putInt(ITEM_POS,position);
-        args.putString(CHANNEL_ID,mCursor.getString(MainListFragment.COL_CHANNEL_ID));
-        args.putString(USERID,mCursor.getString(MainListFragment.COL_ID_USER_CHANNEL));
+        args.putInt(ITEM_POS, position);
+        args.putString(CHANNEL_ID, mCursor.getString(MainListFragment.COL_CHANNEL_ID));
+        args.putString(USERID, mCursor.getString(MainListFragment.COL_ID_USER_CHANNEL));
         holder.deleteButton.setTag(args);
         holder.deleteButton.setOnClickListener(this);
     }
@@ -74,9 +72,9 @@ public class FavoritesViewAdapter extends RecyclerView.Adapter<FavoritesViewAdap
 
     @Override
     public int getItemCount() {
-        if(mCursor== null){
+        if (mCursor == null) {
             return -1;
-        }else{
+        } else {
             return mCursor.getCount();
         }
     }
@@ -90,7 +88,7 @@ public class FavoritesViewAdapter extends RecyclerView.Adapter<FavoritesViewAdap
         return mCursor;
     }
 
-    public static class ItemHolder extends RecyclerView.ViewHolder{
+    public static class ItemHolder extends RecyclerView.ViewHolder {
 
         private FavoritesViewAdapter parent;
         private CardView cardView;
@@ -112,28 +110,28 @@ public class FavoritesViewAdapter extends RecyclerView.Adapter<FavoritesViewAdap
 
     @Override
     public void onClick(View v) {
-        if(v instanceof CardView) {
-            int channel_id = Integer.parseInt((String) v.getTag());
-            ((OnClickCallback)context).onItemSelected(
-                    ServicesContract.ChannelEntry.buildChannelIdUriQuery(String.valueOf(channel_id))
+        if (v instanceof CardView) {
+            String channel_id = (String) v.getTag();
+            ((OnClickCallback) context).onItemSelected(
+                    ServicesContract.ChannelEntry.buildChannelIdUriQuery(channel_id)
             );
-        } else if(v instanceof ImageButton) {
+        } else if (v instanceof ImageButton) {
             Bundle data = (Bundle) v.getTag();
 //            0 for removing the channel from favorite fragment
-            BroadcastvSQLUtil.updateIsFavoriteChannel(context, MainListActivity.usr.getUserId(),0,data.getString(CHANNEL_ID));
+            BroadcastvSQLUtil.updateIsFavoriteChannel(context, MainListActivity.usr.getUserId(), 0, data.getString(CHANNEL_ID));
             restartFavorites(data.getString(USERID));
             notifyItemRemoved(data.getInt(ITEM_POS));
             notifyDataSetChanged();
-            ((OnClickCallback)context).showInteractiveMsg(context.getResources().getString(R.string.delete_favorite));
-        } else if(v instanceof ImageView) {
+            ((OnClickCallback) context).showInteractiveMsg(context.getResources().getString(R.string.delete_favorite));
+        } else if (v instanceof ImageView) {
             String url = (String) v.getTag();
             ((OnClickCallback) context).onPlayButtonClicked(url);
         }
     }
 
-    private void restartFavorites(String userId){
+    private void restartFavorites(String userId) {
         Bundle args = new Bundle();
-        args.putString(USERID,userId);
+        args.putString(USERID, userId);
         favoriteFragment = (FavoritesFragment) fm.findFragmentByTag(FavoritesFragment.FRAGMENT_TAG);
         if (favoriteFragment != null) {
             favoriteFragment.onOrderChanged(args);

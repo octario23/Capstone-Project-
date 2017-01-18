@@ -43,15 +43,15 @@ public class ServicesContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static Uri buildTokenUriQuery(String token){
+        public static Uri buildTokenUriQuery(String token) {
             return CONTENT_URI.buildUpon().appendPath(token).build();
         }
 
-        public static Uri buildTokenUserUriQuery(String token,String id_user){
+        public static Uri buildTokenUserUriQuery(String token, String id_user) {
             return CONTENT_URI.buildUpon().appendPath(token).appendPath(id_user).build();
         }
 
-        public static String getTokenFromUri(Uri uri){
+        public static String getTokenFromUri(Uri uri) {
             return uri.getPathSegments().get(1);
         }
 
@@ -63,7 +63,7 @@ public class ServicesContract {
 
     }
 
-    public static final class UserEntry implements BaseColumns{
+    public static final class UserEntry implements BaseColumns {
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_USERS).build();
 
         public static final String TABLE_NAME = "Users";
@@ -91,7 +91,7 @@ public class ServicesContract {
             return CONTENT_URI.buildUpon().appendPath(userId).build();
         }
 
-        public static Uri buildUsernameUriQuery(String userId,String username) {
+        public static Uri buildUsernameUriQuery(String userId, String username) {
             return CONTENT_URI.buildUpon().appendPath(userId).appendPath(username).build();
         }
 
@@ -105,7 +105,7 @@ public class ServicesContract {
         }
     }
 
-    public static final class ChannelEntry implements BaseColumns{
+    public static final class ChannelEntry implements BaseColumns {
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_CHANNELS).build();
 
         public static final String TABLE_NAME = "Channels";
@@ -153,7 +153,7 @@ public class ServicesContract {
             return CONTENT_URI.buildUpon().appendPath(channelId).build();
         }
 
-        public static Uri buildChannelNameUriQuery(String channelId,String channelName) {
+        public static Uri buildChannelNameUriQuery(String channelId, String channelName) {
             return CONTENT_URI.buildUpon().appendPath(channelId).appendPath(channelName).build();
         }
 
@@ -164,7 +164,7 @@ public class ServicesContract {
         }
 
         public static Uri buildFavoriteChannels(
-                boolean isFavorite,String userId) {
+                boolean isFavorite, String userId) {
             return CONTENT_URI.buildUpon()
                     .appendQueryParameter(COL_IS_FAVORITE, Boolean.toString(isFavorite))
                     .appendQueryParameter(COL_ID_USER, userId).build();
@@ -195,7 +195,7 @@ public class ServicesContract {
 
         public static int getRemoveSelfFromUri(Uri uri) {
             String removeSelf = uri.getQueryParameter(REMOVE_SELF);
-            if (null != removeSelf){
+            if (null != removeSelf) {
                 return 1;
             } else {
                 return 0;
@@ -204,7 +204,7 @@ public class ServicesContract {
 
         public static int getIsFavoriteFromUri(Uri uri) {
             String favorite = uri.getQueryParameter(COL_IS_FAVORITE);
-            if (null != favorite){
+            if (null != favorite) {
                 return 1;
             } else {
                 return 0;
@@ -220,7 +220,7 @@ public class ServicesContract {
         }
     }
 
-    public static final class ChannelUserEntry implements BaseColumns{
+    public static final class ChannelUserEntry implements BaseColumns {
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_CHANNEL_USER).build();
 
         public static final String TABLE_NAME = "Channel_User";
@@ -245,7 +245,7 @@ public class ServicesContract {
             return CONTENT_URI.buildUpon().appendPath(userId).build();
         }
 
-        public static Uri buildUserChannelIdUriQuery(String userId,String channelId) {
+        public static Uri buildUserChannelIdUriQuery(String userId, String channelId) {
             return CONTENT_URI.buildUpon().appendPath(userId).appendPath(channelId).build();
         }
 
