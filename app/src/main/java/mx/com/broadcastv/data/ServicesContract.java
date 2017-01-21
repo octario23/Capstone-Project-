@@ -1,4 +1,4 @@
-package mx.com.broadcastv.data;
+package mx.com.jboxonlineapp.data;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -7,7 +7,7 @@ import android.provider.BaseColumns;
 
 public class ServicesContract {
 
-    public static final String CONTENT_AUTHORITY = "mx.com.broadcastv";
+    public static final String CONTENT_AUTHORITY = "mx.com.jboxonlineapp";
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
@@ -171,8 +171,8 @@ public class ServicesContract {
         }
 
         public static Uri buildChannelWithGroupIdAndRemoveSelf(
-                int channelId, int groupId, boolean removeSelf) {
-            return CONTENT_URI.buildUpon().appendPath(String.valueOf(channelId))
+                String channelId, int groupId, boolean removeSelf) {
+            return CONTENT_URI.buildUpon().appendPath(channelId)
                     .appendQueryParameter(COL_GROUP_ID, Integer.toString(groupId))
                     .appendQueryParameter(REMOVE_SELF, Boolean.toString(removeSelf)).build();
         }

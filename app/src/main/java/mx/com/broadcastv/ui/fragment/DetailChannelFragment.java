@@ -1,4 +1,4 @@
-package mx.com.broadcastv.ui.fragment;
+package mx.com.jboxonlineapp.ui.fragment;
 
 
 import android.content.Context;
@@ -39,15 +39,15 @@ import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import mx.com.broadcastv.BroadcastvApplication;
-import mx.com.broadcastv.R;
-import mx.com.broadcastv.adapter.RecommendationsViewAdapter;
-import mx.com.broadcastv.data.ServicesContract;
-import mx.com.broadcastv.ui.MainListActivity;
-import mx.com.broadcastv.ui.interfaces.OnClickCallback;
-import mx.com.broadcastv.ui.views.AdjustableRecyclerView;
-import mx.com.broadcastv.util.BroadcastvSQLUtil;
-import mx.com.broadcastv.util.WindowCompatUtil;
+import mx.com.jboxonlineapp.BroadcastvApplication;
+import mx.com.jboxonlineapp.R;
+import mx.com.jboxonlineapp.adapter.RecommendationsViewAdapter;
+import mx.com.jboxonlineapp.data.ServicesContract;
+import mx.com.jboxonlineapp.ui.MainListActivity;
+import mx.com.jboxonlineapp.ui.interfaces.OnClickCallback;
+import mx.com.jboxonlineapp.ui.views.AdjustableRecyclerView;
+import mx.com.jboxonlineapp.util.BroadcastvSQLUtil;
+import mx.com.jboxonlineapp.util.WindowCompatUtil;
 
 
 public class DetailChannelFragment extends Fragment
@@ -321,7 +321,7 @@ public class DetailChannelFragment extends Fragment
                 if (args != null) {
                     Uri groupIdUri =
                             ServicesContract.ChannelEntry.buildChannelWithGroupIdAndRemoveSelf(
-                                    Integer.parseInt(args.getString(CHANNEL_ID)),
+                                    args.getString(CHANNEL_ID),
                                     Integer.parseInt(args.getString(CHANNEL_GROUP_ID)), true);
                     Log.e("onCreateLoader: ", groupIdUri.toString());
                     String mSelectionGroupClause = null;
@@ -344,7 +344,7 @@ public class DetailChannelFragment extends Fragment
                 if (data != null && data.moveToFirst()) {
                     Bundle loaderArgs = new Bundle();
                     loaderArgs.putString(CHANNEL_GROUP_ID, String.valueOf(data.getInt(COL_GROUP_ID)));
-                    loaderArgs.putString(CHANNEL_ID, String.valueOf(data.getInt(COL_CHANNEL_ID)));
+                    loaderArgs.putString(CHANNEL_ID, String.valueOf(data.getString(COL_CHANNEL_ID)));
                     getLoaderManager().initLoader(RECOMMENDATIONS_LOADER, loaderArgs, this);
                     scrollViewHandset.setVisibility(View.VISIBLE);
                     listContainer.setVisibility(View.VISIBLE);
