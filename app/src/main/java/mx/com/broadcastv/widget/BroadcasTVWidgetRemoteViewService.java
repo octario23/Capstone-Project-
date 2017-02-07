@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import mx.com.broadcastv.BroadcastvApplication;
 import mx.com.broadcastv.R;
 import mx.com.broadcastv.data.ServicesContract;
 import mx.com.broadcastv.util.BroadcastvSQLUtil;
@@ -48,7 +49,7 @@ public class BroadcasTVWidgetRemoteViewService extends RemoteViewsService {
 //                TODO make an API call to get the User ID and display the content in the widget
                 final long identityToken = Binder.clearCallingIdentity();
                 Uri favoriteChannelsUri = ServicesContract.ChannelEntry
-                        .buildFavoriteChannels(true, "1");
+                        .buildFavoriteChannels(true, BroadcastvApplication.getInstance().getUserId());
                 data = getContentResolver().query(favoriteChannelsUri,
                         BroadcastvSQLUtil.CHANNELS_COLUMNS,
                         null,

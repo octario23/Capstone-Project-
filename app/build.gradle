@@ -8,7 +8,7 @@ android {
         release {
             keyAlias "Udacity Keystore"
             storePassword "udacity2017"
-            storeFile file('$rootdir/keystore.jks')
+            storeFile file('keystore.jks')
             keyPassword "udacity2017"
         }
     }

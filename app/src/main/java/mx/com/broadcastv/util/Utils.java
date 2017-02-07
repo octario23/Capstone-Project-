@@ -5,7 +5,7 @@ import android.content.Context;
 
 public class Utils {
     public static ProgressDialog broadcastvLoading(Context context) {
-        ProgressDialog progress = new ProgressDialog(context) {
+        final ProgressDialog progress = new ProgressDialog(context) {
             @Override
             public void onBackPressed() {
                 /** dismiss the progress bar and clean up here **/
@@ -14,7 +14,7 @@ public class Utils {
         progress.setCanceledOnTouchOutside(false);
         progress.setTitle("BroadcasTV");
         progress.setMessage("Loading...");
-//        progress.show();
+        progress.setCancelable(true);
         return progress;
     }
 }

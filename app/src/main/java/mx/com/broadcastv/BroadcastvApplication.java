@@ -6,10 +6,12 @@ import android.content.res.Configuration;
 
 import com.facebook.stetho.Stetho;
 
-public class BroadcastvApplication extends Application {
+public class    BroadcastvApplication extends Application {
 
     private static BroadcastvApplication sInstance;
     public static Context mAppContext;
+    private static String userId = "1";
+
 
     public void onCreate() {
         super.onCreate();
@@ -30,4 +32,14 @@ public class BroadcastvApplication extends Application {
         return (int) (valueInDP
                 * mAppContext.getResources().getDisplayMetrics().density + 0.5f);
     }
+
+
+    public static String getUserId() {
+        return userId;
+    }
+
+    public static void setUserId(String userID) {
+        userId = userID;
+    }
+
 }

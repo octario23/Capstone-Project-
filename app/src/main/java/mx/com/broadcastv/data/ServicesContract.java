@@ -1,4 +1,4 @@
-package mx.com.jboxonlineapp.data;
+package mx.com.broadcastv.data;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -7,7 +7,7 @@ import android.provider.BaseColumns;
 
 public class ServicesContract {
 
-    public static final String CONTENT_AUTHORITY = "mx.com.jboxonlineapp";
+    public static final String CONTENT_AUTHORITY = "mx.com.broadcastv";
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 

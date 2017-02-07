@@ -3,6 +3,7 @@ package mx.com.broadcastv.ui;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -63,6 +65,9 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         searchView.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
         searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(this);
+        EditText txtSearch = ((EditText)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text));
+        txtSearch.setHintTextColor(Color.WHITE);
+        txtSearch.setTextColor(Color.WHITE);
         if (mQuery != null) {
             searchView.setQuery(mQuery, true);
         }

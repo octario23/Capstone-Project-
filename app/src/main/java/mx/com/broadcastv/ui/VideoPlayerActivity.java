@@ -23,6 +23,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements MediaPlaye
     private int mVideoWidth;
     private int mVideoHeight;
     private ProgressBar loading;
+    private View decorView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements MediaPlaye
         setContentView(R.layout.activity_video_player);
         vidView = (VideoView) findViewById(R.id.myVideo);
         loading = (ProgressBar) findViewById(R.id.loading_progress);
+        decorView = getWindow().getDecorView();
         MediaController vidControl = new MediaController(this);
         vidControl.setAnchorView(vidView);
         vidView.setMediaController(vidControl);
@@ -41,6 +43,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements MediaPlaye
         vidView.setVideoURI(vidUri);
         vidView.setOnPreparedListener(this);
         vidView.start();
+
 
     }
 
@@ -76,7 +79,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements MediaPlaye
         loading.setVisibility(View.GONE);
     }
 
-
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+    }
 //    @Override
 //    public void onDestroy() {
 //        super.onDestroy();

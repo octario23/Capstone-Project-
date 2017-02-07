@@ -1,56 +1,59 @@
 <resources>
     <string name="app_name">BroadcasTV</string>
-    <string name="favorites">Favoritos</string>
+    <string name="favorites">Favorites</string>
 
     <string name="data">data</string>
     <string name="holder">holder</string>
 
-    <string name="nav_option_favoritos">Favoritos</string>
-    <string name="nav_option_todos">Todos</string>
-    <string name="nav_option_tvabierta">TV Abierta</string>
-    <string name="nav_option_cultura">Cultura</string>
-    <string name="nav_option_entretenimiento">Entretenimiento</string>
-    <string name="nav_option_noticias">Noticias</string>
+    <string name="nav_option_favoritos">Favorites</string>
+    <string name="nav_option_todos">All</string>
+    <string name="nav_option_tvabierta">Free TV</string>
+    <string name="nav_option_cultura">Culture</string>
+    <string name="nav_option_entretenimiento">Entertainment</string>
+    <string name="nav_option_noticias">New</string>
     <string name="nav_option_radio">Radio</string>
-    <string name="nav_option_infantil">Infantil</string>
-    <string name="nav_option_deportes">Deportes</string>
-    <string name="nav_option_internacional">Internacional</string>
+    <string name="nav_option_infantil">Kids</string>
+    <string name="nav_option_deportes">Sports</string>
+    <string name="nav_option_internacional">International</string>
     <string name="nav_option_personal">Personal</string>
-    <string name="nav_option_cineonline">Cine Online</string>
-    <string name="nav_option_adultos">Adultos</string>
-    <string name="nav_option_cine">Cine</string>
-    <string name="nav_option_musica">Música</string>
-    <string name="nav_option_documentales">Documentales</string>
+    <string name="nav_option_cineonline">Online Movies</string>
+    <string name="nav_option_adultos">Adults</string>
+    <string name="nav_option_cine">Movies</string>
+    <string name="nav_option_musica">Music</string>
+    <string name="nav_option_documentales">Documentary</string>
     <string name="drawer_open">Drawer Opened</string>
     <string name="drawer_close">Drawer Closed</string>
     <!--content description texts-->
-    <string name="play_button">Reproducir</string>
-    <string name="favorite_button">Agregar a Favoritos</string>
-    <string name="delete_favorite_button">Eliminar de Favoritos</string>
+    <string name="play_button">Play</string>
+    <string name="favorite_button">Add to Favorites</string>
+    <string name="delete_favorite_button">Delete from Favorites</string>
 
     <string name="banner_ad_unit_id">ca-app-pub-7331083650726794/6734061061</string>
-    <string name="title_widget_broadcastv">BroadcasTV</string>
-    <string name="empty_broadcastv_list">Lista de Favoritos Vacía</string>
+    <string name="title_widget_broadcastv">JBox Online App</string>
+    <string name="empty_broadcastv_list">Your Favorites list is empty</string>
 
     <string name="hostName">http://service.jbox.online/service.svc</string>
-    <string name="search_title">Buscar</string>
-    <string name="refresh_title">Actualizar</string>
+    <string name="search_title">Search</string>
+    <string name="refresh_title">Update</string>
     <string name="AuthenticationUser">user</string>
     <string name="AuthenticationPassword">password</string>
-    <string name="error_network">Error en la red, intenta de nuevo más tarde</string>
-    <string name="empty_list">No hay elementos agregados.</string>
-    <string name="search_no_result_found">No se encontraron resultados.</string>
-    <string name="search_encouragement">Busca por nombre de canal o película.</string>
+    <string name="error_network">Network unavailable, please try again later.</string>
+    <string name="empty_list">No added elements</string>
+    <string name="search_no_result_found">No search results.</string>
+    <string name="search_encouragement">Search by movie or channel name</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="channelName">Nombre del Canal</string>
-    <string name="channelUrl">URL del Canal</string>
-    <string name="send">Enviar</string>
-    <string name="addChannel">Registro de Canal</string>
-    <string name="channel_added">Canal Agregado exitosamente.</string>
-    <string name="watch_now">Reproducir</string>
-    <string name="delete_favorite">Canal borrado de tus favoritos.</string>
-    <string name="added_favorite">Canal agregado a tus favoritos</string>
+    <string name="channelName">Channel Name</string>
+    <string name="channelUrl">Channel URL</string>
+    <string name="send">Send</string>
+    <string name="addChannel">Register a channel</string>
+    <string name="channel_added">Channel added successfully</string>
+    <string name="watch_now">Play</string>
+    <string name="delete_favorite">Channel removed from favorites</string>
+    <string name="added_favorite">Channel added to favorites</string>
+    <string name="nav_menu_registro_rapido">Short Registration</string>
+    <string name="nav_menu_device_id">Device ID</string>
+    <string name="nav_menu_nosotros">About Us</string>
+    <string name="deviceText">Your Device ID is:</string>
+    <string name="deviceName">Device Name</string>
 
 </resources>

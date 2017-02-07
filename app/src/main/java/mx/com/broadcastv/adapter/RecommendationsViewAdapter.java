@@ -17,6 +17,7 @@ import mx.com.broadcastv.R;
 import mx.com.broadcastv.data.ServicesContract;
 import mx.com.broadcastv.ui.fragment.DetailChannelFragment;
 import mx.com.broadcastv.ui.fragment.MainListFragment;
+import mx.com.broadcastv.ui.interfaces.OnClickCallback;
 
 
 public class RecommendationsViewAdapter extends
@@ -29,10 +30,6 @@ public class RecommendationsViewAdapter extends
     private static final String IS_FAVORITE = "is_favorite";
     private static final String CHANNEL_ID = "channel_id";
     private DetailChannelFragment detailChannelFragment;
-
-    public interface OnClickCallback {
-        void onItemSelected(Uri elementUri);
-    }
 
     public RecommendationsViewAdapter(Context context, FragmentManager fm) {
         this.context = context;
