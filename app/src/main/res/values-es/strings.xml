@@ -55,5 +55,9 @@
     <string name="nav_menu_nosotros">Acerca de Nosotros</string>
     <string name="deviceText">Tu Device ID es:</string>
     <string name="deviceName">Nombre del Dispositivo</string>
+    <string name="play_category">Play Movie Action</string>
+    <string name="play_action">Play Movie</string>
+    <string name="search_category">Search Action</string>
+    <string name="search_action">Search Movie</string>
 
 </resources>

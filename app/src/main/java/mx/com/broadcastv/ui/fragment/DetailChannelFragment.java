@@ -287,7 +287,7 @@ public class DetailChannelFragment extends Fragment
                 ((ImageButton) v).setImageResource(R.mipmap.star_icon_selected);
                 isFavorite = 1;
             }
-            BroadcastvSQLUtil.updateIsFavoriteChannel(getActivity(), MainListActivity.usr.getUserId(), isFavorite, data.getString(CHANNEL_ID_DATA));
+            BroadcastvSQLUtil.updateIsFavoriteChannel(getActivity(), BroadcastvApplication.getInstance().getUserId(), isFavorite, data.getString(CHANNEL_ID_DATA));
             onOrderChanged();
             if (isFavorite == 1) {
                 ((OnClickCallback) getActivity()).showInteractiveMsg(getActivity().getResources().getString(R.string.added_favorite));

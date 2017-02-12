@@ -12,7 +12,7 @@ public class BroadcastvApplication extends Application {
 
     public static Context mAppContext;
     private static BroadcastvApplication sInstance;
-    private static String userId = "1";
+    private static String userId = "GUEST@JBOX.ONLINE";
     public Tracker mTracker;
 
     public static BroadcastvApplication getInstance() {

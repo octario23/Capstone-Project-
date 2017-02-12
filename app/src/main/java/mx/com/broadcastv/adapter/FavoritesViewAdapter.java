@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import mx.com.broadcastv.BroadcastvApplication;
 import mx.com.broadcastv.R;
 import mx.com.broadcastv.data.ServicesContract;
 import mx.com.broadcastv.ui.MainListActivity;
@@ -98,7 +99,7 @@ public class FavoritesViewAdapter extends RecyclerView.Adapter<FavoritesViewAdap
         } else if (v instanceof ImageButton) {
             Bundle data = (Bundle) v.getTag();
 //            0 for removing the channel from favorite fragment
-            BroadcastvSQLUtil.updateIsFavoriteChannel(context, MainListActivity.usr.getUserId(), 0, data.getString(CHANNEL_ID));
+            BroadcastvSQLUtil.updateIsFavoriteChannel(context, BroadcastvApplication.getInstance().getUserId(), 0, data.getString(CHANNEL_ID));
             restartFavorites(data.getString(USERID));
             notifyItemRemoved(data.getInt(ITEM_POS));
             notifyDataSetChanged();
