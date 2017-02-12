@@ -31,6 +31,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -47,6 +49,7 @@ import org.springframework.http.HttpHeaders;
 import java.io.IOException;
 import java.util.List;
 
+import mx.com.broadcastv.BroadcastvApplication;
 import mx.com.broadcastv.R;
 import mx.com.broadcastv.data.ServicesContract;
 import mx.com.broadcastv.model.Channels;
@@ -70,12 +73,14 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
         Drawer.OnDrawerNavigationListener,
         View.OnClickListener {
 
-    private static final int REQUEST_CODE = 7;
     public static final java.lang.String SEARCH_CHANNEL_URI = "search_channel_uri";
+    private static final int REQUEST_CODE = 7;
     private static final String TOKEN = "token";
     private static final String FRAGMENT_ID = "fragment_id";
     private static final String IS_IN_DETAILS = "is_in_details";
     private static final String IS_ADDING_CHANNEL = "adding_channel";
+    public static User usr;
+    public static String tokenDvc;
     private Drawer drawer = null;
     private FragmentManager fm;
     private FrameLayout rootLayout;
@@ -95,8 +100,6 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
     private View mRevealView;
     private FloatingActionButton mFab;
     private CoordinatorLayout content;
-    public static User usr;
-    public static String tokenDvc;
     private Uri searchChannelUri = null;
     private CoordinatorLayout fragmentHidden;
     private AddChannelFragment addChannelFragment;
@@ -116,6 +119,7 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.rootLayout, new MainListFragment()).commit();
         }
+        BroadcastvApplication.getInstance().startTracking();
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-7331083650726794~3780594661");
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -261,7 +265,7 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
             case ApplicationConstants.FAVORITOS_MENU_ID:
                 if (getSupportActionBar() != null)
                     getSupportActionBar().setTitle(R.string.nav_option_favoritos);
-                args.putString(FavoritesFragment.USER_ID, usr.getUserId());
+                args.putString(FavoritesFragment.USER_ID, BroadcastvApplication.getInstance().getUserId());
                 checkFragmentToUse(ApplicationConstants.FAVORITOS_MENU_ID, args);
                 mFab.setVisibility(View.GONE);
                 break;
@@ -417,7 +421,13 @@ public class MainListActivity extends AppCompatActivity implements OnClickCallba
     }
 
     @Override
-    public void onPlayButtonClicked(String url) {
+    public void onPlayButtonClicked(String url, String channelName) {
+        Tracker tracker = BroadcastvApplication.getInstance().getTracker();
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory(getResources().getString(R.string.play_category))
+                .setAction(getResources().getString(R.string.play_action))
+                .setLabel(channelName)
+                .build());
         Intent intent = new Intent(this, VideoPlayerActivity.class);
         intent.putExtra(ApplicationConstants.VIDEO_URL, url);
         startActivityForResult(intent, ApplicationConstants.VIDEO_PROCESS);

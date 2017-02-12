@@ -14,11 +14,6 @@ import mx.com.broadcastv.db.BroadcastvSQLHelper;
 
 public class ServicesProvider extends ContentProvider {
 
-    private static final UriMatcher sUriMatcher = buildUriMatcher();
-
-    private BroadcastvSQLHelper mOpenHelper;
-
-
     static final int LOGIN = 100;
     static final int LOGIN_TOKEN = 101;
     static final int LOGIN_ID_USER = 102;
@@ -31,11 +26,48 @@ public class ServicesProvider extends ContentProvider {
     static final int CHANNEL_USER = 400;
     static final int CHANNEL_USER_ID = 401;
     static final int CHANNEL_USER_CHANNEL_ID = 402;
-
+    private static final UriMatcher sUriMatcher = buildUriMatcher();
     private static final SQLiteQueryBuilder sLoginQueryBuilder;
     private static final SQLiteQueryBuilder sUserQueryBuilder;
     private static final SQLiteQueryBuilder sChannelQueryBuilder;
     private static final SQLiteQueryBuilder sChannelUserQueryBuilder;
+    private static final String sLoginTokenSelection =
+            ServicesContract.LoginEntry.TABLE_NAME +
+                    "." + ServicesContract.LoginEntry.COL_TOKEN + " = ? ";
+    private static final String sLoginUserSelection =
+            ServicesContract.LoginEntry.TABLE_NAME +
+                    "." + ServicesContract.LoginEntry.COL_ID_USER + " = ? ";
+    private static final String sUserIdSelection =
+            ServicesContract.UserEntry.TABLE_NAME +
+                    "." + ServicesContract.UserEntry.COL_USER_ID + " = ? ";
+    private static final String sUserNameSelection =
+            ServicesContract.UserEntry.TABLE_NAME +
+                    "." + ServicesContract.UserEntry.COL_USERNAME + " = ? ";
+    private static final String sChannelIdSelection =
+            ServicesContract.ChannelEntry.TABLE_NAME +
+                    "." + ServicesContract.ChannelEntry.COL_CHANNEL_ID + " = ? ";
+    private static final String sChannelNameSelection =
+            ServicesContract.ChannelEntry.TABLE_NAME +
+                    "." + ServicesContract.ChannelEntry.COL_NAME + " LIKE ? ";
+    private static final String sChannelGroupIdSelection =
+            ServicesContract.ChannelEntry.TABLE_NAME +
+                    "." + ServicesContract.ChannelEntry.COL_GROUP_ID + " = ? ";
+    private static final String sGroupIdWithRemoveSelection =
+            ServicesContract.ChannelEntry.TABLE_NAME +
+                    "." + ServicesContract.ChannelEntry.COL_GROUP_ID + " = ?  AND " +
+                    ServicesContract.ChannelEntry.TABLE_NAME +
+                    "." + ServicesContract.ChannelEntry.COL_CHANNEL_ID + " <> ? ";
+    private static final String sChannelIsFavoriteSelection =
+            ServicesContract.ChannelEntry.TABLE_NAME +
+                    "." + ServicesContract.ChannelEntry.COL_IS_FAVORITE + " = ? AND " +
+                    ServicesContract.ChannelEntry.TABLE_NAME +
+                    "." + ServicesContract.ChannelEntry.COL_ID_USER + " = ? ";
+    private static final String sChannelUserIdSelection =
+            ServicesContract.ChannelUserEntry.TABLE_NAME +
+                    "." + ServicesContract.ChannelUserEntry.COL_ID_USER + " = ? ";
+    private static final String sChannelChannelIdSelection =
+            ServicesContract.ChannelUserEntry.TABLE_NAME +
+                    "." + ServicesContract.ChannelUserEntry.COL_ID_CHANNEL + " = ? ";
 
     static {
         sLoginQueryBuilder = new SQLiteQueryBuilder();
@@ -55,54 +87,28 @@ public class ServicesProvider extends ContentProvider {
 
     }
 
-    private static final String sLoginTokenSelection =
-            ServicesContract.LoginEntry.TABLE_NAME +
-                    "." + ServicesContract.LoginEntry.COL_TOKEN + " = ? ";
+    private BroadcastvSQLHelper mOpenHelper;
 
-    private static final String sLoginUserSelection =
-            ServicesContract.LoginEntry.TABLE_NAME +
-                    "." + ServicesContract.LoginEntry.COL_ID_USER + " = ? ";
+    static UriMatcher buildUriMatcher() {
 
-    private static final String sUserIdSelection =
-            ServicesContract.UserEntry.TABLE_NAME +
-                    "." + ServicesContract.UserEntry.COL_USER_ID + " = ? ";
+        final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
+        final String authority = ServicesContract.CONTENT_AUTHORITY;
 
-    private static final String sUserNameSelection =
-            ServicesContract.UserEntry.TABLE_NAME +
-                    "." + ServicesContract.UserEntry.COL_USERNAME + " = ? ";
+        matcher.addURI(authority, ServicesContract.PATH_LOGIN, LOGIN);
+        matcher.addURI(authority, ServicesContract.PATH_LOGIN + "/*", LOGIN_TOKEN);
+        matcher.addURI(authority, ServicesContract.PATH_LOGIN + "/*/*", LOGIN_ID_USER);
+        matcher.addURI(authority, ServicesContract.PATH_USERS, USER);
+        matcher.addURI(authority, ServicesContract.PATH_USERS + "/*", USER_ID);
+        matcher.addURI(authority, ServicesContract.PATH_USERS + "/*/*", USER_NAME);
+        matcher.addURI(authority, ServicesContract.PATH_CHANNELS, CHANNEL);
+        matcher.addURI(authority, ServicesContract.PATH_CHANNELS + "/*", CHANNEL_ID);
+        matcher.addURI(authority, ServicesContract.PATH_CHANNELS + "/*/*", CHANNEL_NAME);
+        matcher.addURI(authority, ServicesContract.PATH_CHANNEL_USER, CHANNEL_USER);
+        matcher.addURI(authority, ServicesContract.PATH_CHANNEL_USER + "/*", CHANNEL_USER_ID);
+        matcher.addURI(authority, ServicesContract.PATH_CHANNEL_USER + "/*/*", CHANNEL_USER_CHANNEL_ID);
 
-    private static final String sChannelIdSelection =
-            ServicesContract.ChannelEntry.TABLE_NAME +
-                    "." + ServicesContract.ChannelEntry.COL_CHANNEL_ID + " = ? ";
-
-    private static final String sChannelNameSelection =
-            ServicesContract.ChannelEntry.TABLE_NAME +
-                    "." + ServicesContract.ChannelEntry.COL_NAME + " LIKE ? ";
-
-    private static final String sChannelGroupIdSelection =
-            ServicesContract.ChannelEntry.TABLE_NAME +
-                    "." + ServicesContract.ChannelEntry.COL_GROUP_ID + " = ? ";
-
-    private static final String sGroupIdWithRemoveSelection =
-            ServicesContract.ChannelEntry.TABLE_NAME +
-                    "." + ServicesContract.ChannelEntry.COL_GROUP_ID + " = ?  AND " +
-                    ServicesContract.ChannelEntry.TABLE_NAME +
-                    "." + ServicesContract.ChannelEntry.COL_CHANNEL_ID + " <> ? ";
-
-    private static final String sChannelIsFavoriteSelection =
-            ServicesContract.ChannelEntry.TABLE_NAME +
-                    "." + ServicesContract.ChannelEntry.COL_IS_FAVORITE + " = ? AND " +
-                    ServicesContract.ChannelEntry.TABLE_NAME +
-                    "." + ServicesContract.ChannelEntry.COL_ID_USER + " = ? ";
-
-    private static final String sChannelUserIdSelection =
-            ServicesContract.ChannelUserEntry.TABLE_NAME +
-                    "." + ServicesContract.ChannelUserEntry.COL_ID_USER + " = ? ";
-
-    private static final String sChannelChannelIdSelection =
-            ServicesContract.ChannelUserEntry.TABLE_NAME +
-                    "." + ServicesContract.ChannelUserEntry.COL_ID_CHANNEL + " = ? ";
-
+        return matcher;
+    }
 
     private Cursor getLoginByToken(Uri uri, String[] projection, String sortOrder) {
         String token = ServicesContract.LoginEntry.getTokenFromUri(uri);
@@ -296,27 +302,6 @@ public class ServicesProvider extends ContentProvider {
                 null,
                 sortOrder
         );
-    }
-
-    static UriMatcher buildUriMatcher() {
-
-        final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
-        final String authority = ServicesContract.CONTENT_AUTHORITY;
-
-        matcher.addURI(authority, ServicesContract.PATH_LOGIN, LOGIN);
-        matcher.addURI(authority, ServicesContract.PATH_LOGIN + "/*", LOGIN_TOKEN);
-        matcher.addURI(authority, ServicesContract.PATH_LOGIN + "/*/*", LOGIN_ID_USER);
-        matcher.addURI(authority, ServicesContract.PATH_USERS, USER);
-        matcher.addURI(authority, ServicesContract.PATH_USERS + "/*", USER_ID);
-        matcher.addURI(authority, ServicesContract.PATH_USERS + "/*/*", USER_NAME);
-        matcher.addURI(authority, ServicesContract.PATH_CHANNELS, CHANNEL);
-        matcher.addURI(authority, ServicesContract.PATH_CHANNELS + "/*", CHANNEL_ID);
-        matcher.addURI(authority, ServicesContract.PATH_CHANNELS + "/*/*", CHANNEL_NAME);
-        matcher.addURI(authority, ServicesContract.PATH_CHANNEL_USER, CHANNEL_USER);
-        matcher.addURI(authority, ServicesContract.PATH_CHANNEL_USER + "/*", CHANNEL_USER_ID);
-        matcher.addURI(authority, ServicesContract.PATH_CHANNEL_USER + "/*/*", CHANNEL_USER_CHANNEL_ID);
-
-        return matcher;
     }
 
     @Override

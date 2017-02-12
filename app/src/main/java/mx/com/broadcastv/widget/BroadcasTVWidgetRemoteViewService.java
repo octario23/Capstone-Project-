@@ -15,7 +15,6 @@ import mx.com.broadcastv.util.BroadcastvSQLUtil;
 
 public class BroadcasTVWidgetRemoteViewService extends RemoteViewsService {
 
-    public final String LOG_TAG = BroadcasTVWidgetRemoteViewService.class.getSimpleName();
     //    Channel columns
     public static final int CHANNEL_ID_COL = 0;
     public static final int COL_COUNTRY = 1;
@@ -29,6 +28,7 @@ public class BroadcasTVWidgetRemoteViewService extends RemoteViewsService {
     public static final int COL_GROUP_NAME = 9;
     public static final int COL_ID_USER_CHANNEL = 10;
     public static final int COL_IS_FAVORITE = 11;
+    public final String LOG_TAG = BroadcasTVWidgetRemoteViewService.class.getSimpleName();
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {

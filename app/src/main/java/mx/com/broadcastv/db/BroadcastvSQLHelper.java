@@ -6,11 +6,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class BroadcastvSQLHelper extends SQLiteOpenHelper {
 
+    static final String DATABASE_NAME = "services.db";
     //    TODO if any change in the DB is made, update the database_version number
     private static final int DATABASE_VERSION = 8;
-
-    static final String DATABASE_NAME = "services.db";
-
     String sqlCreateLogin = "CREATE TABLE Login" +
             "(_id INTEGER PRIMARY KEY, " +
             " token TEXT, " +

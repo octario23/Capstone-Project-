@@ -59,6 +59,8 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.5.0'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.5.0'
     compile 'com.fasterxml.jackson.core:jackson-core:2.5.0'
+    compile 'com.google.android.gms:play-services-analytics:10.0.1'
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'
+

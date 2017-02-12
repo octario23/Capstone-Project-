@@ -29,11 +29,11 @@ import mx.com.broadcastv.R;
 import mx.com.broadcastv.model.Request;
 
 public class AsyncTaskHelper extends AsyncTask<String, Void, JsonNode> {
+    public static String Error = "";
     public Activity activity;
     public Request inputServices;
     public _Callback callback;
     public String url;
-    public static String Error = "";
 
     public AsyncTaskHelper(Activity _activity, Request _request, _Callback _callback, String _url) {
         super();

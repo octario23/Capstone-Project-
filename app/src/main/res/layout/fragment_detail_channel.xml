@@ -1,5 +1,4 @@
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/contentDetail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,8 +11,8 @@
         android:layout_height="200dp"
         android:focusableInTouchMode="true"
         android:saveEnabled="true"
-        android:src="@drawable/header"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/header" />
 
     <ProgressBar
         android:id="@+id/loading_progress"
@@ -22,7 +21,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:indeterminate="false"
-        android:indeterminateOnly="true"/>
+        android:indeterminateOnly="true" />
 
     <ScrollView
         android:id="@+id/scroll"
@@ -30,8 +29,8 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingTop="220dp"
-        android:visibility="gone"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/content"
@@ -52,32 +51,32 @@
                     android:layout_height="44dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="@dimen/spacing_small"
-                    android:text="@string/watch_now"
                     android:contentDescription="@string/watch_now"
+                    android:text="@string/watch_now"
                     android:textColor="@color/primary_dark"
                     android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <ImageButton
+                    android:id="@+id/action_button"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:id="@+id/action_button"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
-                    android:contentDescription="@string/favorite_button"
-                    android:src="@mipmap/start_icon"
-                    android:background="#EBEBEB"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical|right"
                     android:layout_marginRight="@dimen/spacing_large"
-                    android:scaleType="centerCrop"/>
+                    android:background="#EBEBEB"
+                    android:contentDescription="@string/favorite_button"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/start_icon" />
 
             </RelativeLayout>
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
 
             <ImageButton
@@ -85,10 +84,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#0000"
-                android:gravity="center"
                 android:contentDescription="@string/app_name"
+                android:gravity="center"
                 android:padding="18dp"
-                android:tag="collapsed"/>
+                android:tag="collapsed" />
 
             <View
                 android:id="@+id/expand_divider"
@@ -97,19 +96,19 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="3dp"
-                android:background="@color/cardview_dark_background"/>
+                android:background="@color/cardview_dark_background" />
 
 
             <LinearLayout
+                android:id="@+id/lists_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:id="@+id/lists_container">
+                android:orientation="horizontal">
 
                 <mx.com.broadcastv.ui.views.AdjustableRecyclerView
                     android:id="@+id/myrecyclerview"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
             </LinearLayout>
 
 

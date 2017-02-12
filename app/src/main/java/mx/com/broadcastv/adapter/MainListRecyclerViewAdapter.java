@@ -57,7 +57,7 @@ public class MainListRecyclerViewAdapter extends
         holder.cardView.setTag(mCursor.getString(MainListFragment.COL_CHANNEL_ID));
         holder.cardView.setOnClickListener(this);
         holder.cardView.setContentDescription(mCursor.getString(MainListFragment.COL_NAME));
-        holder.playButton.setTag(mCursor.getString(MainListFragment.COL_URL));
+        holder.playButton.setTag(mCursor);
         holder.playButton.setOnClickListener(this);
     }
 
@@ -80,6 +80,30 @@ public class MainListRecyclerViewAdapter extends
         return mCursor;
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v instanceof CardView) {
+            String channel_id = (String) v.getTag();
+            ((OnClickCallback) context).onItemSelected(
+                    ServicesContract.ChannelEntry.buildChannelIdUriQuery(channel_id)
+            );
+        } else if (v instanceof ImageView) {
+            Cursor cursor = (Cursor) v.getTag();
+            String url = cursor.getString(MainListFragment.COL_URL);
+            String channelName = cursor.getString(MainListFragment.COL_NAME);
+            ((OnClickCallback) context).onPlayButtonClicked(url, channelName);
+        }
+    }
+
+    private void restartChannels() {
+        Bundle args = new Bundle();
+        mainListFragment = (MainListFragment) fm.findFragmentByTag(MainListFragment.FRAGMENT_TAG);
+        detailChannelFragment = (DetailChannelFragment) fm.findFragmentByTag(DetailChannelFragment.FRAGMENT_TAG);
+        if (mainListFragment != null) {
+            mainListFragment.onOrderChanged(args);
+        }
+    }
+
     public static class ItemHolder extends RecyclerView.ViewHolder {
 
         CardView cardView;
@@ -94,28 +118,6 @@ public class MainListRecyclerViewAdapter extends
             textItemName = (TextView) cardView.findViewById(R.id.item_name);
             textItemGroup = (TextView) cardView.findViewById(R.id.item_group);
             playButton = (ImageView) cardView.findViewById(R.id.playButton);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v instanceof CardView) {
-            String channel_id = (String) v.getTag();
-            ((OnClickCallback) context).onItemSelected(
-                    ServicesContract.ChannelEntry.buildChannelIdUriQuery(channel_id)
-            );
-        } else if (v instanceof ImageView) {
-            String url = (String) v.getTag();
-            ((OnClickCallback) context).onPlayButtonClicked(url);
-        }
-    }
-
-    private void restartChannels() {
-        Bundle args = new Bundle();
-        mainListFragment = (MainListFragment) fm.findFragmentByTag(MainListFragment.FRAGMENT_TAG);
-        detailChannelFragment = (DetailChannelFragment) fm.findFragmentByTag(DetailChannelFragment.FRAGMENT_TAG);
-        if (mainListFragment != null) {
-            mainListFragment.onOrderChanged(args);
         }
     }
 

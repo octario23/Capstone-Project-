@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/search"
-          android:title="@string/search_title"
-          android:icon="@mipmap/ic_action_search_white"
-          app:showAsAction="ifRoom"/>
-    <item android:id="@+id/refresh"
-          android:title="@string/refresh_title"
-          android:icon="@mipmap/ic_action_navigation_refresh"
-          app:showAsAction="ifRoom"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/search"
+        android:icon="@mipmap/ic_action_search_white"
+        android:title="@string/search_title"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/refresh"
+        android:icon="@mipmap/ic_action_navigation_refresh"
+        android:title="@string/refresh_title"
+        app:showAsAction="ifRoom" />
 </menu>

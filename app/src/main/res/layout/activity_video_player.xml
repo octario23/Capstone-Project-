@@ -1,31 +1,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#000000"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:background="#000000"
     android:gravity="center"
     tools:context=".ui.VideoPlayerActivity">
+
     <FrameLayout
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:background="#000000"
-                 android:layout_gravity="center"
-                 android:gravity="center">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#000000"
+        android:gravity="center">
 
         <VideoView
             android:id="@+id/myVideo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            />
+            android:layout_centerInParent="true" />
+
         <ProgressBar
             android:id="@+id/loading_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
             android:indeterminate="false"
-            android:indeterminateOnly="true"/>
+            android:indeterminateOnly="true" />
 
     </FrameLayout>
 </RelativeLayout>

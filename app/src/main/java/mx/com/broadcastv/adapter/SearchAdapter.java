@@ -23,10 +23,6 @@ import mx.com.broadcastv.ui.SearchActivity;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder> implements
         View.OnClickListener {
 
-    SearchActivity.SearchSelectionListener listener;
-
-    final Context context;
-    private Cursor mCursor;
     public static final int COL_ID = 0;
     public static final int COL_COUNTRY = 1;
     public static final int COL_DESCRIPTION = 2;
@@ -39,6 +35,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemHolder
     public static final int COL_GROUP_NAME = 9;
     public static final int COL_ID_USER_CHANNEL = 10;
     public static final int COL_IS_FAVORITE = 11;
+    final Context context;
+    SearchActivity.SearchSelectionListener listener;
+    private Cursor mCursor;
 
     public SearchAdapter(Context context, SearchActivity.SearchSelectionListener listener) {
         this.context = context;

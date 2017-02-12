@@ -32,8 +32,6 @@ import mx.com.broadcastv.util.BroadcastvSQLUtil;
 public class MainListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String FRAGMENT_TAG = MainListFragment.class.getSimpleName();
-    private static final int CHANNEL_LOADER = 0;
-
     public static final int COL_ID = 0;
     public static final int COL_COUNTRY = 1;
     public static final int COL_DESCRIPTION = 2;
@@ -46,10 +44,9 @@ public class MainListFragment extends Fragment implements LoaderManager.LoaderCa
     public static final int COL_GROUP_NAME = 9;
     public static final int COL_ID_USER_CHANNEL = 10;
     public static final int COL_IS_FAVORITE = 11;
-    private static final String SELECTED_KEY = "selected_position";
     public static final String CHANNELS_TO_SHOW = "channels_to_show";
-
-
+    private static final int CHANNEL_LOADER = 0;
+    private static final String SELECTED_KEY = "selected_position";
     private AdjustableRecyclerView myRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private MainListRecyclerViewAdapter myRecyclerViewAdapter;
@@ -59,15 +56,15 @@ public class MainListFragment extends Fragment implements LoaderManager.LoaderCa
     private int selectedChannels = 0;
     private FragmentManager fm;
 
+    public MainListFragment() {
+    }
+
     public static MainListFragment newInstance(Bundle args) {
         MainListFragment fragment = new MainListFragment();
         if (args != null) {
             fragment.setArguments(args);
         }
         return fragment;
-    }
-
-    public MainListFragment() {
     }
 
     @Override

@@ -24,6 +24,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
+import mx.com.broadcastv.BroadcastvApplication;
 import mx.com.broadcastv.R;
 import mx.com.broadcastv.adapter.SearchAdapter;
 import mx.com.broadcastv.data.ServicesContract;
@@ -35,21 +39,24 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         SearchView.OnQueryTextListener,
         View.OnClickListener {
 
-    private static final String QUERY = "query";
     public static final String SEARCH_CHANNEL_URI = "search_channel_uri";
+    private static final String QUERY = "query";
     private static final int SEARCH_LOADER = 0;
-    private Toolbar tool_bar;
     SearchView searchView;
-    private ProgressBar progressBar;
-    private AdjustableRecyclerView recyclerView;
     TextView hintText;
     LinearLayout mNoResultFoundText;
+    SearchSelectionListener listener = new SearchSelectionListener() {
+        @Override
+        public void searchSelection(Intent data) {
+            setResult(RESULT_OK, data);
+            finish();
+        }
+    };
+    private Toolbar tool_bar;
+    private ProgressBar progressBar;
+    private AdjustableRecyclerView recyclerView;
     private String mQuery;
     private SearchAdapter searchAdapter;
-
-    public interface SearchSelectionListener {
-        void searchSelection(Intent data);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -65,7 +72,7 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         searchView.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
         searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(this);
-        EditText txtSearch = ((EditText)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text));
+        EditText txtSearch = ((EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text));
         txtSearch.setHintTextColor(Color.WHITE);
         txtSearch.setTextColor(Color.WHITE);
         if (mQuery != null) {
@@ -139,6 +146,12 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         Log.i(SearchActivity.class.getSimpleName(), "Query: " + query);
         progressBar.setVisibility(View.VISIBLE);
         mQuery = query;
+        Tracker tracker = BroadcastvApplication.getInstance().getTracker();
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory(getResources().getString(R.string.search_category))
+                .setAction(getResources().getString(R.string.search_action))
+                .setLabel(query)
+                .build());
         getSupportLoaderManager().restartLoader(SEARCH_LOADER, null, this);
     }
 
@@ -151,15 +164,6 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
             ((SearchActivity) v.getContext()).finish();
         }
     }
-
-    SearchSelectionListener listener = new SearchSelectionListener() {
-        @Override
-        public void searchSelection(Intent data) {
-            setResult(RESULT_OK, data);
-            finish();
-        }
-    };
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -201,6 +205,10 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    public interface SearchSelectionListener {
+        void searchSelection(Intent data);
     }
 }
 

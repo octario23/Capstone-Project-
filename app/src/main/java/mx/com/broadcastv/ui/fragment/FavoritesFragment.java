@@ -23,10 +23,10 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import mx.com.broadcastv.BroadcastvApplication;
 import mx.com.broadcastv.R;
 import mx.com.broadcastv.adapter.FavoritesViewAdapter;
 import mx.com.broadcastv.data.ServicesContract;
-import mx.com.broadcastv.ui.MainListActivity;
 import mx.com.broadcastv.ui.views.AdjustableRecyclerView;
 import mx.com.broadcastv.util.BroadcastvSQLUtil;
 
@@ -35,17 +35,11 @@ public class FavoritesFragment extends Fragment
 
     public static final String FRAGMENT_TAG = FavoritesFragment.class.getSimpleName();
     public static final String USER_ID = "user_id";
-    private static final int USER_LOADER = 0;
-    private static final int CHANNEL_LOADER = 1;
-    private static final String SELECTED_KEY = "selected_position";
-    private static final String USERID = "user_id";
-
     public static final int COL_ID = 0;
     public static final int COL_LANG_ID = 1;
     public static final int COL_USER_ID = 2;
     public static final int COL_USERNAME = 3;
     public static final int COL_USER_LOGON = 4;
-
     //    Channel columns
     public static final int CHANNEL_ID_COL = 0;
     public static final int COL_COUNTRY = 1;
@@ -59,7 +53,10 @@ public class FavoritesFragment extends Fragment
     public static final int COL_GROUP_NAME = 9;
     public static final int COL_ID_USER_CHANNEL = 10;
     public static final int COL_IS_FAVORITE = 11;
-
+    private static final int USER_LOADER = 0;
+    private static final int CHANNEL_LOADER = 1;
+    private static final String SELECTED_KEY = "selected_position";
+    private static final String USERID = "user_id";
     private AdjustableRecyclerView myRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private FavoritesViewAdapter myRecyclerViewAdapter;
@@ -74,16 +71,16 @@ public class FavoritesFragment extends Fragment
     private FloatingActionButton mFab;
 
 
+    public FavoritesFragment() {
+
+    }
+
     public static FavoritesFragment newInstance(Bundle args) {
         FavoritesFragment fragment = new FavoritesFragment();
         if (args != null) {
             fragment.setArguments(args);
         }
         return fragment;
-    }
-
-    public FavoritesFragment() {
-
     }
 
     @Override
@@ -134,7 +131,7 @@ public class FavoritesFragment extends Fragment
         switch (id) {
             case USER_LOADER:
                 Uri userUri;
-                userUri = ServicesContract.UserEntry.buildUserIdUriQuery(MainListActivity.usr.getUserId());
+                userUri = ServicesContract.UserEntry.buildUserIdUriQuery(BroadcastvApplication.getInstance().getUserId());
 
                 String mSelectionClause = null;
 

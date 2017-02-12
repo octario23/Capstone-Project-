@@ -55,12 +55,6 @@ public class DetailChannelFragment extends Fragment
 
     public static final String FRAGMENT_TAG = DetailChannelFragment.class.getSimpleName();
     public static final String DETAIL_URI = "URI";
-    private static final String FILTER_POS = "";
-    private static final int CHANNEL_LOADER = 1;
-    private static final int RECOMMENDATIONS_LOADER = 2;
-    private static final String IS_FAVORITE = "is_favorite";
-    private static final String CHANNEL_ID_DATA = "channel_id_data";
-
     public static final int COL_ID = 0;
     public static final int COL_COUNTRY = 1;
     public static final int COL_DESCRIPTION = 2;
@@ -71,6 +65,11 @@ public class DetailChannelFragment extends Fragment
     public static final int COL_URL = 7;
     public static final int COL_GROUP_ID = 8;
     public static final int COL_GROUP_NAME = 9;
+    private static final String FILTER_POS = "";
+    private static final int CHANNEL_LOADER = 1;
+    private static final int RECOMMENDATIONS_LOADER = 2;
+    private static final String IS_FAVORITE = "is_favorite";
+    private static final String CHANNEL_ID_DATA = "channel_id_data";
     private static final String SELECTED_KEY = "selected_position";
     private static final String CHANNEL_GROUP_ID = "channel_group_id";
     private static final String CHANNEL_ID = "channel_id";
@@ -97,6 +96,10 @@ public class DetailChannelFragment extends Fragment
     private TextView description;
     private String item;
     private FloatingActionButton mFab;
+
+    public DetailChannelFragment() {
+
+    }
 
     public static DetailChannelFragment newInstance(Bundle args) {
         DetailChannelFragment fragment = new DetailChannelFragment();
@@ -144,10 +147,6 @@ public class DetailChannelFragment extends Fragment
         if (scrollViewHandset != null) {
             scrollViewHandset.getViewTreeObserver().removeOnScrollChangedListener(this);
         }
-    }
-
-    public DetailChannelFragment() {
-
     }
 
     @Nullable

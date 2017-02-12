@@ -1,71 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginBottom="2dp"
-                                    android:layout_marginLeft="2dp"
-                                    android:layout_marginTop="2dp"
-                                    android:layout_marginRight="2dp"
-                                    card_view:cardCornerRadius="2sp"
-                                    card_view:cardElevation="1sp">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    android:layout_marginLeft="2dp"
+    android:layout_marginRight="2dp"
+    android:layout_marginTop="2dp"
+    card_view:cardCornerRadius="2sp"
+    card_view:cardElevation="1sp">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
         <ImageView
             android:id="@+id/playButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:contentDescription="@string/play_button"
-            android:layout_alignParentTop="false"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:layout_marginLeft="@dimen/spacing_medium"
-            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_alignParentTop="false"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/spacing_medium"
-            android:layout_marginRight="@dimen/spacing_large"
             android:layout_marginEnd="@dimen/spacing_large"
-            android:scaleType="centerCrop" android:layout_centerHorizontal="true"
-            android:src="@mipmap/play_button"/>
+            android:layout_marginLeft="@dimen/spacing_medium"
+            android:layout_marginRight="@dimen/spacing_large"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:contentDescription="@string/play_button"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/play_button" />
 
         <ImageButton
+            android:id="@+id/deleteButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:id="@+id/deleteButton"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:contentDescription="@string/delete_favorite_button"
-            android:src="@mipmap/ic_action_action_delete"
-            android:background="#fff"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:scaleType="centerCrop"/>
+            android:background="#fff"
+            android:contentDescription="@string/delete_favorite_button"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_action_action_delete" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/spacing_medium"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/playButton"
             android:layout_toEndOf="@+id/playButton"
             android:layout_toLeftOf="@+id/deleteButton"
-            android:layout_toStartOf="@+id/deleteButton">
+            android:layout_toRightOf="@+id/playButton"
+            android:layout_toStartOf="@+id/deleteButton"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_medium">
 
             <TextView
                 android:id="@+id/item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="16dp"/>
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/item_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14dp"/>
+                android:textSize="14dp" />
         </LinearLayout>
 
     </RelativeLayout>

@@ -26,13 +26,13 @@ import mx.com.broadcastv.util.BroadcastvSQLUtil;
 public class FavoritesViewAdapter extends RecyclerView.Adapter<FavoritesViewAdapter.ItemHolder>
         implements View.OnClickListener {
 
+    private static final String ITEM_POS = "item_pos";
+    private static final String CHANNEL_ID = "channel_id";
+    private static final String USERID = "user_id";
     private FragmentManager fm;
     private Context context;
     private Cursor mCursor;
-    private static final String ITEM_POS = "item_pos";
-    private static final String CHANNEL_ID = "channel_id";
     private FavoritesFragment favoriteFragment;
-    private static final String USERID = "user_id";
 
     public FavoritesViewAdapter(Context context, FragmentManager fm) {
         this.context = context;
@@ -59,7 +59,7 @@ public class FavoritesViewAdapter extends RecyclerView.Adapter<FavoritesViewAdap
         holder.cardView.setTag(mCursor.getString(FavoritesFragment.COL_CHANNEL_ID));
         holder.cardView.setOnClickListener(this);
         holder.cardView.setContentDescription(mCursor.getString(FavoritesFragment.COL_NAME));
-        holder.playButton.setTag(mCursor.getString(FavoritesFragment.COL_URL));
+        holder.playButton.setTag(mCursor);
         holder.playButton.setOnClickListener(this);
         Bundle args = new Bundle();
         args.putInt(ITEM_POS, position);
@@ -88,26 +88,6 @@ public class FavoritesViewAdapter extends RecyclerView.Adapter<FavoritesViewAdap
         return mCursor;
     }
 
-    public static class ItemHolder extends RecyclerView.ViewHolder {
-
-        private FavoritesViewAdapter parent;
-        private CardView cardView;
-        TextView textItemName;
-        TextView textItemGroup;
-        ImageView playButton;
-        ImageButton deleteButton;
-
-        public ItemHolder(CardView cView, FavoritesViewAdapter parent) {
-            super(cView);
-            cardView = cView;
-            this.parent = parent;
-            textItemName = (TextView) cardView.findViewById(R.id.item_name);
-            textItemGroup = (TextView) cardView.findViewById(R.id.item_group);
-            playButton = (ImageView) cardView.findViewById(R.id.playButton);
-            deleteButton = (ImageButton) cardView.findViewById(R.id.deleteButton);
-        }
-    }
-
     @Override
     public void onClick(View v) {
         if (v instanceof CardView) {
@@ -124,8 +104,10 @@ public class FavoritesViewAdapter extends RecyclerView.Adapter<FavoritesViewAdap
             notifyDataSetChanged();
             ((OnClickCallback) context).showInteractiveMsg(context.getResources().getString(R.string.delete_favorite));
         } else if (v instanceof ImageView) {
-            String url = (String) v.getTag();
-            ((OnClickCallback) context).onPlayButtonClicked(url);
+            Cursor cursor = (Cursor) v.getTag();
+            String url = cursor.getString(FavoritesFragment.COL_URL);
+            String channelName = cursor.getString(FavoritesFragment.COL_NAME);
+            ((OnClickCallback) context).onPlayButtonClicked(url, channelName);
         }
     }
 
@@ -135,6 +117,26 @@ public class FavoritesViewAdapter extends RecyclerView.Adapter<FavoritesViewAdap
         favoriteFragment = (FavoritesFragment) fm.findFragmentByTag(FavoritesFragment.FRAGMENT_TAG);
         if (favoriteFragment != null) {
             favoriteFragment.onOrderChanged(args);
+        }
+    }
+
+    public static class ItemHolder extends RecyclerView.ViewHolder {
+
+        TextView textItemName;
+        TextView textItemGroup;
+        ImageView playButton;
+        ImageButton deleteButton;
+        private FavoritesViewAdapter parent;
+        private CardView cardView;
+
+        public ItemHolder(CardView cView, FavoritesViewAdapter parent) {
+            super(cView);
+            cardView = cView;
+            this.parent = parent;
+            textItemName = (TextView) cardView.findViewById(R.id.item_name);
+            textItemGroup = (TextView) cardView.findViewById(R.id.item_group);
+            playButton = (ImageView) cardView.findViewById(R.id.playButton);
+            deleteButton = (ImageButton) cardView.findViewById(R.id.deleteButton);
         }
     }
 }

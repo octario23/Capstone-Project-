@@ -2,7 +2,6 @@ package mx.com.broadcastv.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
@@ -23,12 +22,12 @@ import mx.com.broadcastv.ui.interfaces.OnClickCallback;
 public class RecommendationsViewAdapter extends
         RecyclerView.Adapter<RecommendationsViewAdapter.ItemHolder> implements View.OnClickListener {
 
+    private static final String IS_FAVORITE = "is_favorite";
+    private static final String CHANNEL_ID = "channel_id";
     private FragmentManager fm;
     private MainListFragment mainListFragment;
     private Context context;
     private Cursor mCursor;
-    private static final String IS_FAVORITE = "is_favorite";
-    private static final String CHANNEL_ID = "channel_id";
     private DetailChannelFragment detailChannelFragment;
 
     public RecommendationsViewAdapter(Context context, FragmentManager fm) {
@@ -81,6 +80,16 @@ public class RecommendationsViewAdapter extends
         return mCursor;
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v instanceof CardView) {
+            String channel_id = (String) v.getTag();
+            ((OnClickCallback) context).onItemSelected(
+                    ServicesContract.ChannelEntry.buildChannelIdUriQuery(channel_id)
+            );
+        }
+    }
+
     public static class ItemHolder extends RecyclerView.ViewHolder {
 
         CardView cardView;
@@ -93,16 +102,6 @@ public class RecommendationsViewAdapter extends
             cardView = cView;
             textItemName = (TextView) cardView.findViewById(R.id.item_name);
             textItemGroup = (TextView) cardView.findViewById(R.id.item_group);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v instanceof CardView) {
-            String channel_id = (String) v.getTag();
-            ((OnClickCallback) context).onItemSelected(
-                    ServicesContract.ChannelEntry.buildChannelIdUriQuery(channel_id)
-            );
         }
     }
 
